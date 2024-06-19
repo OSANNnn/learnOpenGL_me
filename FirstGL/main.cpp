@@ -136,7 +136,7 @@ int main()
 	vec3 lightColor(1.0f, 1.0f, 1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	Material cubeMaterial(black_rubber);
+	Material cubeMaterial;
 	Light lightCube{};
 
 	lightCube.position = lightPos;
@@ -168,9 +168,9 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//random moving light
-		lightCube.position.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-		lightCube.position.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightCube.position.z = cos(glfwGetTime());		
+		lightCube.position.x = 1.0f + (float) sin(glfwGetTime()) * 2.0f;
+		lightCube.position.y = (float) sin(glfwGetTime() / 2.0f) * 1.0f;
+		lightCube.position.z = (float) cos(glfwGetTime());		
 
 		lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);
