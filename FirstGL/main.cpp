@@ -133,16 +133,16 @@ int main()
 	float aspect = (float)width / height;
 
 	vec3 cubeColor(1.0f, 0.5f, 0.31f);
-	vec3 lightColor(1.0f, 1.0f, 1.0f);
+	vec3 lightColor(0.0f, 1.0f, 0.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	Material cubeMaterial;
+	Material cubeMaterial(cubeColor);
 	Light lightCube{};
 
 	lightCube.position = lightPos;
-	lightCube.ambient = vec3(1.0f);
-	lightCube.diffuse = vec3(1.0f);
-	lightCube.specular = vec3(1.0f);
+	lightCube.ambient = vec3(0.5f);
+	lightCube.diffuse = lightColor;
+	lightCube.specular = lightColor;
 
 	/*cubeMaterial.ambient = cubeColor;
 	cubeMaterial.diffuse = cubeColor;
@@ -168,9 +168,9 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//random moving light
-		lightCube.position.x = 1.0f + (float) sin(glfwGetTime()) * 2.0f;
+		/*lightCube.position.x = 1.0f + (float) sin(glfwGetTime()) * 2.0f;
 		lightCube.position.y = (float) sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightCube.position.z = (float) cos(glfwGetTime());		
+		lightCube.position.z = (float) cos(glfwGetTime());	*/	
 
 		lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);

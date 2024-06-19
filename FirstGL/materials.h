@@ -12,6 +12,7 @@ struct Material {
 	float shininess;
 
 	Material() : ambient(MISSING_MATERIAL), diffuse(MISSING_MATERIAL), specular(glm::vec3(0.0f)), shininess(1) {};
+	Material(glm::vec3 col) : ambient(col), diffuse(col), specular(glm::vec3(0.5f)), shininess(0.1 * 128) {};
 	Material(Material& mat) : ambient(mat.ambient), diffuse(mat.diffuse), specular(mat.specular), shininess(mat.shininess) {};
 	Material(glm::vec3 amb, glm::vec3 diff, glm::vec3 spec, float shine) : ambient(amb), diffuse(diff), specular(spec), shininess(shine) {};
 };
