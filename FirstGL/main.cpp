@@ -136,18 +136,18 @@ int main()
 	vec3 lightColor(1.0f, 1.0f, 1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	Material cubeMaterial{};
+	Material cubeMaterial(black_rubber);
 	Light lightCube{};
 
 	lightCube.position = lightPos;
-	lightCube.ambient = vec3(0.2f);
-	lightCube.diffuse = vec3(0.5f);
+	lightCube.ambient = vec3(1.0f);
+	lightCube.diffuse = vec3(1.0f);
 	lightCube.specular = vec3(1.0f);
 
-	cubeMaterial.ambient = cubeColor;
+	/*cubeMaterial.ambient = cubeColor;
 	cubeMaterial.diffuse = cubeColor;
 	cubeMaterial.specular = vec3(0.5f, 0.5f, 0.5f);
-	cubeMaterial.shininess = 32.0f;
+	cubeMaterial.shininess = 32.0f;*/
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -167,9 +167,10 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//random moving light
 		lightCube.position.x = 1.0f + sin(glfwGetTime()) * 2.0f;
 		lightCube.position.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightCube.position.z = cos(glfwGetTime());
+		lightCube.position.z = cos(glfwGetTime());		
 
 		lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);
@@ -184,7 +185,7 @@ int main()
 
 		cubeShader.Use();
 		cubeShader.setMaterial("material", cubeMaterial);
-		cubeShader.setLight("light", lightCube);		
+		cubeShader.setLight("light", lightCube);
 		cubeVAO.Bind();
 		view = camera.getViewMatrix();
 		model = mat4(1.0);
