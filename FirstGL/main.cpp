@@ -57,7 +57,7 @@ int main()
 	glViewport(0, 0, width, height);
 
 	float vertices[] = {
-		//	vertexCoords        //normals
+		//	vertexCoords          normals
 			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 			 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -136,16 +136,16 @@ int main()
 	vec3 lightColor(1.0f, 1.0f, 1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	Material cubeMaterial;
-	Light lightCube;
+	Material cubeMaterial{};
+	Light lightCube{};
 
 	lightCube.position = lightPos;
 	lightCube.ambient = vec3(0.2f);
 	lightCube.diffuse = vec3(0.5f);
 	lightCube.specular = vec3(1.0f);
 
-	cubeMaterial.ambient = vec3(1.0f, 0.5f, 0.31f);
-	cubeMaterial.diffuse = vec3(1.0f, 0.5f, 0.31f);
+	cubeMaterial.ambient = cubeColor;
+	cubeMaterial.diffuse = cubeColor;
 	cubeMaterial.specular = vec3(0.5f, 0.5f, 0.5f);
 	cubeMaterial.shininess = 32.0f;
 
@@ -167,15 +167,15 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		/*lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-		lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightPos.z = cos(glfwGetTime());*/
+		lightCube.position.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+		lightCube.position.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+		lightCube.position.z = cos(glfwGetTime());
 
 		lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);
 		lightsourceVAO.Bind();
 		model = mat4(1.0f);
-		model = translate(model, lightPos);
+		model = translate(model, lightCube.position);
 		model = scale(model, vec3(0.2f));
 		lightShader.setMat4f("model", model);
 		lightShader.setMat4f("view", view);
@@ -184,18 +184,14 @@ int main()
 
 		cubeShader.Use();
 		cubeShader.setMaterial("material", cubeMaterial);
-		cubeShader.setLight("light", lightCube);
-		cubeShader.setVec3("objectColor", cubeColor);
-		cubeShader.setVec3("lightColor", lightColor);
+		cubeShader.setLight("light", lightCube);		
 		cubeVAO.Bind();
-
 		view = camera.getViewMatrix();
 		model = mat4(1.0);
 		//model = rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 		cubeShader.setMat4f("model", model);
 		cubeShader.setMat4f("view", view);
 		cubeShader.setMat4f("projection", projection);
-		cubeShader.setVec3("lightPos", lightPos);
 		cubeShader.setVec3("viewPos", camera.m_Position);
 		cubeVAO.Draw();
 
@@ -209,6 +205,7 @@ int main()
 	cubeVBO.Delete();
 	lightsourceVAO.Delete();
 	cubeShader.Delete();
+	lightShader.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();
