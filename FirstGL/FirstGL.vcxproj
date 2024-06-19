@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="materials.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="buffers.h" />

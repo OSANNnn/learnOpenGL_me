@@ -56,6 +56,9 @@
     <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="materials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">

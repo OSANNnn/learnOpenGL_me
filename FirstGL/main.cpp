@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "Shader.h"
 #include "buffers.h"
+#include "materials.h"
 
 using namespace std;
 using namespace Buffers;
@@ -135,6 +136,19 @@ int main()
 	vec3 lightColor(1.0f, 1.0f, 1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
+	Material cubeMaterial;
+	Light lightCube;
+
+	lightCube.position = lightPos;
+	lightCube.ambient = vec3(0.2f);
+	lightCube.diffuse = vec3(0.5f);
+	lightCube.specular = vec3(1.0f);
+
+	cubeMaterial.ambient = vec3(1.0f, 0.5f, 0.31f);
+	cubeMaterial.diffuse = vec3(1.0f, 0.5f, 0.31f);
+	cubeMaterial.specular = vec3(0.5f, 0.5f, 0.5f);
+	cubeMaterial.shininess = 32.0f;
+
 	glEnable(GL_DEPTH_TEST);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -153,9 +167,9 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+		/*lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
 		lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightPos.z = cos(glfwGetTime());
+		lightPos.z = cos(glfwGetTime());*/
 
 		lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);
@@ -169,6 +183,8 @@ int main()
 		lightsourceVAO.Draw();
 
 		cubeShader.Use();
+		cubeShader.setMaterial("material", cubeMaterial);
+		cubeShader.setLight("light", lightCube);
 		cubeShader.setVec3("objectColor", cubeColor);
 		cubeShader.setVec3("lightColor", lightColor);
 		cubeVAO.Bind();
