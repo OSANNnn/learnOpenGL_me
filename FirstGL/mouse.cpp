@@ -1,5 +1,6 @@
 #include "mouse.h"
 
+extern Fly_Camera camera;
 
 double Mouse::x = 0;
 double Mouse::y = 0;
@@ -35,6 +36,8 @@ void Mouse::cursorPosCallback(GLFWwindow* window, double _x, double _y)
 	
 	lastX = x;
 	lastY = y;
+
+	camera.processMouseMovement(dx, dy);
 }
 
 void Mouse::mouseButtonCallBack(GLFWwindow* window, int button, int action, int mods)
@@ -58,6 +61,8 @@ void Mouse::mouseWheelCallback(GLFWwindow* window, double dx, double dy)
 {
 	scrollDX = dx;
 	scrollDY = dy;
+
+	camera.processMouseScroll(dy);
 }
 
 double Mouse::getMouseX()

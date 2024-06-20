@@ -11,6 +11,7 @@
 #include "buffers.hpp"
 #include "materials.hpp"
 #include "keyboard.h"
+#include "mouse.h"
 
 using namespace std;
 using namespace Buffers;
@@ -57,8 +58,8 @@ int main()
 	glViewport(0, 0, width, height);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetCursorPosCallback(window, Mouse::cursorPosCallback);
+	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
 
 	float vertices[] = {
