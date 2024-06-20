@@ -83,7 +83,7 @@ public:
 			m_Position -= m_Up * velocity;
 	}
 
-	void processMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
+	void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true)
 	{
 		xoffset *= m_MouseSensitivity;
 		yoffset *= m_MouseSensitivity;
@@ -117,7 +117,7 @@ public:
 			m_Zoom = 90.0f;
 	}
 
-	float zoom() const { return m_Zoom; }
+	float fov() const { return m_Zoom; }
 	glm::vec3 position() const { return m_Position; }
 	void setSpeed(float speed) { m_MovementSpeed = speed; }
 

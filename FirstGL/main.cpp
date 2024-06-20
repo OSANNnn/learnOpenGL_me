@@ -164,7 +164,7 @@ int main()
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		projection = perspective(radians(camera.zoom()), aspect, 0.1f, 100.0f);
+		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 
 		processInput(window, camera);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
