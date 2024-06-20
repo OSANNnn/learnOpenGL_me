@@ -7,7 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "materials.h"
+#include "materials.hpp"
 
 class Shader
 {

@@ -2,17 +2,19 @@
 #define MATERIALS_H
 
 #include <glm/glm.hpp>
+#include "buffers.hpp"
 
 #define MISSING_MATERIAL glm::vec3(1.0, 0.0, 1.0)
 
-struct Material {
+struct Material {	
+	Buffers::Texture *diffuseMap = NULL;
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 	float shininess;
 
 	Material() : ambient(MISSING_MATERIAL), diffuse(MISSING_MATERIAL), specular(glm::vec3(0.0f)), shininess(1) {};
-	Material(glm::vec3 col) : ambient(col), diffuse(col), specular(glm::vec3(0.5f)), shininess(0.1 * 128) {};
+	Material(glm::vec3 col) : ambient(col), diffuse(col), specular(glm::vec3(0.5f)), shininess(0.1f * 128.0f) {};
 	Material(Material& mat) : ambient(mat.ambient), diffuse(mat.diffuse), specular(mat.specular), shininess(mat.shininess) {};
 	Material(glm::vec3 amb, glm::vec3 diff, glm::vec3 spec, float shine) : ambient(amb), diffuse(diff), specular(spec), shininess(shine) {};
 };

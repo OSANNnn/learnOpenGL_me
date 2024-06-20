@@ -5,11 +5,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "camera.h"
-#include "utils.h"
-#include "Shader.h"
-#include "buffers.h"
-#include "materials.h"
+#include "camera.hpp"
+#include "utils.hpp"
+#include "Shader.hpp"
+#include "buffers.hpp"
+#include "materials.hpp"
+#include "keyboard.h"
 
 using namespace std;
 using namespace Buffers;
@@ -34,7 +35,6 @@ bool firstMouse = true;
 int main()
 {
 	glfwInit();
-
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -55,6 +55,11 @@ int main()
 		return -1;
 	}
 	glViewport(0, 0, width, height);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetKeyCallback(window, Keyboard::keycallback);
 
 	float vertices[] = {
 		//	vertexCoords          normals
@@ -100,10 +105,20 @@ int main()
 			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
 			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
+	
+	Shader cubeShader("colorCube.vert", "colorCube.frag");
+	Shader lightShader("light.vert", "light.frag");
 
 	VBO cubeVBO;
 	VAO cubeVAO, lightsourceVAO;
 	GLuint CubeVerticesCount = 36;
+
+	vec3 cubeColor(1.0f, 0.5f, 0.31f);
+	vec3 lightColor(0.0f, 1.0f, 0.0f);
+	vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+	Material cubeMaterial(cubeColor);
+	Light lightCube{};
 
 	cubeVAO.Bind();
 	cubeVBO.Bind();
@@ -121,8 +136,6 @@ int main()
 
 	stbi_set_flip_vertically_on_load(true);
 
-	Shader cubeShader("colorCube.vert", "colorCube.frag");
-	Shader lightShader("light.vert", "light.frag");
 
 	//uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -131,13 +144,6 @@ int main()
 	mat4 projection(1.0f);
 	mat4 model(1.0f);
 	float aspect = (float)width / height;
-
-	vec3 cubeColor(1.0f, 0.5f, 0.31f);
-	vec3 lightColor(0.0f, 1.0f, 0.0f);
-	vec3 lightPos(1.2f, 1.0f, 2.0f);
-
-	Material cubeMaterial(cubeColor);
-	Light lightCube{};
 
 	lightCube.position = lightPos;
 	lightCube.ambient = vec3(0.5f);
@@ -151,17 +157,13 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		projection = perspective(radians(camera.m_Zoom), aspect, 0.1f, 100.0f);
+		projection = perspective(radians(camera.zoom()), aspect, 0.1f, 100.0f);
 
 		processInput(window, camera);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -193,7 +195,7 @@ int main()
 		cubeShader.setMat4f("model", model);
 		cubeShader.setMat4f("view", view);
 		cubeShader.setMat4f("projection", projection);
-		cubeShader.setVec3("viewPos", camera.m_Position);
+		cubeShader.setVec3("viewPos", camera.position());
 		cubeVAO.Draw();
 
 		glfwSwapBuffers(window);

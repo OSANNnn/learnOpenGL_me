@@ -2,6 +2,7 @@
 #define BUFFERS_H
 
 #include <glad/glad.h>
+#include <glfw3.h>
 
 
 namespace Buffers

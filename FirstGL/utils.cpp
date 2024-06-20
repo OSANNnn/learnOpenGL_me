@@ -1,5 +1,4 @@
-#include "utils.h"
-#include <glm/glm.hpp>
+#include "utils.hpp"
 
 extern Fly_Camera camera;
 extern float deltaTime;
@@ -40,46 +39,36 @@ void processInput(GLFWwindow* window, Fly_Camera& camera)
 {
 	const float cameraSpeed = 2.5f * deltaTime;
 
+	camera.setSpeed(2.5f);
+
 	//window close
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	if (Keyboard::keyDown(GLFW_KEY_ESCAPE))
 		glfwSetWindowShouldClose(window, true);
 
 	//camera controls
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_W))
 	{
 		camera.processKeyboard(FORWARD, deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_S))
 	{
 		camera.processKeyboard(BACKWARD, deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_A))
 	{
 		camera.processKeyboard(STRAFE_LEFT, deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_D))
 	{
 		camera.processKeyboard(STRAFE_RIGHT, deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_E))
 	{
 		camera.processKeyboard(STRAFE_UP, deltaTime);
 	}
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	if (Keyboard::key(GLFW_KEY_Q))
 	{
 		camera.processKeyboard(STRAFE_DOWN, deltaTime);
-	}
-
-	//texture mix
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		if (mixValue < 1.0f) mixValue += 0.01f;
-		else return;
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		if (mixValue > 0.0f) mixValue -= 0.01f;
-		else return;
 	}
 }
 

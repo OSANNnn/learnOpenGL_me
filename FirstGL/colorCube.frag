@@ -1,6 +1,7 @@
 #version 330 core
 
 struct Material {
+	sampler2D diffuseMap;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;

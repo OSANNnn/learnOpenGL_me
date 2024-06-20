@@ -7,7 +7,7 @@
 
 const float CAMERA_DEFAULT_YAW = -90.0f;
 const float CAMERA_DEFAULT_PITCH = 0.0f;
-const float CAMERA_DEFAULT_SPEED = 5.0f;
+const float CAMERA_DEFAULT_SPEED = 4.0f;
 const float CAMERA_DEFAULT_SENSITIVITY = 0.1f;
 const float CAMERA_DEFAULT_ZOOM = 45.0f;
 const glm::vec3 CAMERA_DEFAULT_UP(0.0f, 1.0f, 0.0f);
@@ -28,7 +28,6 @@ enum CAMERA_MOVMENT
 
 class Fly_Camera
 {
-public:
 	// camera Attributes
 	glm::vec3 m_Position;
 	glm::vec3 m_Front;
@@ -43,6 +42,7 @@ public:
 	float m_MouseSensitivity;
 	float m_Zoom;
 
+public:
 	Fly_Camera(glm::vec3 position = CAMERA_DEFAULT_POS, glm::vec3 up = CAMERA_DEFAULT_UP, float yaw = CAMERA_DEFAULT_YAW, float pitch = CAMERA_DEFAULT_PITCH)
 		: m_Front(CAMERA_DEFAULT_FRONT), m_MovementSpeed(CAMERA_DEFAULT_SPEED),
 	      m_MouseSensitivity(CAMERA_DEFAULT_SENSITIVITY), m_Zoom(CAMERA_DEFAULT_ZOOM)
@@ -116,6 +116,10 @@ public:
 		if (m_Zoom > 90.0f)
 			m_Zoom = 90.0f;
 	}
+
+	float zoom() const { return m_Zoom; }
+	glm::vec3 position() const { return m_Position; }
+	void setSpeed(float speed) { m_MovementSpeed = speed; }
 
 private:
 	void updateCameraVectors()
