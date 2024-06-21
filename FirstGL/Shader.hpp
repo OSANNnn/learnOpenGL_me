@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "materials.hpp"
+#include "lights.hpp"
 
 class Shader
 {
@@ -33,7 +34,9 @@ public:
 	void setVec3(const std::string& name, const glm::vec3& vec) const;
 	void setVec4(const std::string& name, const glm::vec4& vec) const;
 	void setMaterial(const std::string& name, const Material& material) const;
-	void setLight(const std::string& name, const Light& light) const;
+	void setDirectionalLight(const std::string& name, const DirectionalLight& light) const;
+	void setPointLight(const std::string& name, const PointLight& light) const;
+	void setSpotLight(const std::string& name, const SpotLight& light) const;
 };
 
 #endif

@@ -64,7 +64,7 @@ int main()
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
 
-	glm::vec3 cubePositions[] = {
+	vec3 cubePositions[] = {
 		vec3(0.0f, 0.0f, 0.0f),
 		vec3(2.0f, 5.0f, -15.0f),
 		vec3(-1.5f, -2.2f, -2.5f),
@@ -75,6 +75,13 @@ int main()
 		vec3(1.5f, 2.0f, -2.5f),
 		vec3(1.5f, 0.2f, -1.5f),
 		vec3(-1.3f, 1.0f, -1.5f)
+	};
+
+	vec3 pointLightPositions[] = {
+		vec3(0.7f, 0.2f, 2.0f),
+		vec3(2.3f, -3.3f, -4.0f),
+		vec3(-4.0f, 2.0f, -12.0f),
+		vec3(0.0f, 0.0f, -3.0f)
 	};
 
 	float vertices[] = {
@@ -133,18 +140,25 @@ int main()
 	VBO cubeVBO;
 	VAO cubeVAO, lightsourceVAO;
 	GLuint CubeVerticesCount = 36;
+	
+	DirectionalLight directionalLight;
+	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
+	directionalLight.ambient = vec3(0.1f);
+	directionalLight.diffuse = vec3(1.0f);
+	directionalLight.specular = vec3(0.0f);
 
-	vec3 cubeColor(1.0f, 0.5f, 0.31f);
-	vec3 lightColor(1.0f);
-	vec3 lightPos(1.2f, 1.0f, 2.0f);
-	vec3 directionalLight(-0.2f, -1.0f, -0.3f);
+	PointLight lightCube[4];
 
-	Light lightCube;
+	for (int i = 0; i < 4; i++) {
+		lightCube[i].position = pointLightPositions[i];
+		lightCube[i].ambient = vec3(0.1f);
+		lightCube[i].diffuse = vec3(1.0f);
+		lightCube[i].specular = vec3(1.0f);
+		lightCube[i].constant = 1.0f;
+		lightCube[i].linear = 0.9f;
+		lightCube[i].quadratic = 0.032f;
+	}
 
-	lightCube.position = lightPos;
-	lightCube.ambient = vec3(0.1f);
-	lightCube.diffuse = lightColor;
-	lightCube.specular = lightColor;
 
 	Texture reinforcedBox;
 	Texture reinforcedBoxSpecularMap;
@@ -201,32 +215,33 @@ int main()
 		lightCube.position.z = (float) cos(glfwGetTime());	*/	
 
 		lightShader.Use();
-		lightShader.setVec3("lightColor", lightColor);
+		lightShader.setVec3("lightColor", vec3(1.0f));
 		lightsourceVAO.Bind();
-		model = mat4(1.0f);
-		model = translate(model, lightCube.position);
-		model = scale(model, vec3(0.2f));
-		lightShader.setMat4f("model", model);
-		lightShader.setMat4f("view", view);
-		lightShader.setMat4f("projection", projection);
-		lightsourceVAO.Draw();
+		for (int i = 0; i < 4; i++) {
+			model = mat4(1.0f);
+			model = translate(model, lightCube[i].position);
+			model = scale(model, vec3(0.2f));
+			lightShader.setMat4f("model", model);
+			lightShader.setMat4f("view", view);
+			lightShader.setMat4f("projection", projection);
+			lightsourceVAO.Draw();
+		}
+
+		cubeVAO.Bind();
+		cubeShader.Use();
+		cubeShader.SetFloat("material.shininess", 128.0f);
+		/*cubeShader.setVec3("directionalLight.direction", vec3(-0.2f, -1.0f, -0.3f));
+		cubeShader.setVec3("directionalLight.ambient", vec3(0.1));
+		cubeShader.setVec3("directionalLight.diffuse", vec3(1.0));
+		cubeShader.setVec3("directionalLight.specular", vec3(1.0));*/
+		cubeShader.setDirectionalLight("directionalLight", directionalLight);
+		cubeShader.setPointLight("pointLights[0]", lightCube[0]);
+		cubeShader.setPointLight("pointLights[1]", lightCube[1]);
+		cubeShader.setPointLight("pointLights[2]", lightCube[2]);
+		cubeShader.setPointLight("pointLights[3]", lightCube[3]);
 
 		for (int i = 0; i < 10; i++)
 		{
-			cubeVAO.Bind();
-			cubeShader.Use();
-			cubeShader.SetFloat("material.shininess", 64.0f);
-			//cubeShader.setLight("light", lightCube);
-			cubeShader.setVec3("light.ambient", lightCube.ambient);
-			cubeShader.setVec3("light.diffuse", lightCube.diffuse);
-			cubeShader.setVec3("light.specular", lightCube.specular);
-			cubeShader.setVec3("light.position", camera.position());
-			cubeShader.setVec3("light.direction", camera.front());
-			cubeShader.SetFloat("light.cutoff", cos(radians(12.5f)));
-			cubeShader.SetFloat("light.outerCutoff", cos(radians(17.5f)));
-			cubeShader.SetFloat("light.constant", 1.0f);
-			cubeShader.SetFloat("light.linear", 0.01f);
-			cubeShader.SetFloat("light.quadratic", 0.005f);
 			model = mat4(1.0f);
 			model = translate(model, cubePositions[i]);
 			float angle = 20.0f * i;

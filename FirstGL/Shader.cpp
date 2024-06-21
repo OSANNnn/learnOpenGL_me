@@ -144,10 +144,32 @@ void Shader::setMaterial(const std::string& name, const Material& material) cons
 	SetFloat(name + ".shininess", material.shininess);
 }
 
-void Shader::setLight(const std::string& name, const Light& light) const
+void Shader::setDirectionalLight(const std::string& name, const DirectionalLight& light) const
+{
+	setVec3(name + ".direction", light.direction);
+	setVec3(name + ".ambient", light.ambient);
+	setVec3(name + ".diffuse", light.diffuse);
+	setVec3(name + ".specular", light.specular);
+}
+
+void Shader::setPointLight(const std::string& name, const PointLight& light) const
 {
 	setVec3(name + ".position", light.position);
 	setVec3(name + ".ambient", light.ambient);
 	setVec3(name + ".diffuse", light.diffuse);
 	setVec3(name + ".specular", light.specular);
+	SetFloat(name + ".constant", light.constant);
+	SetFloat(name + ".linear", light.linear);
+	SetFloat(name + ".quadratic", light.quadratic);
+}
+
+void Shader::setSpotLight(const std::string& name, const SpotLight& light) const
+{
+	setVec3(name + ".position", light.position);
+	setVec3(name + ".direction", light.direction);
+	setVec3(name + ".ambient", light.ambient);
+	setVec3(name + ".diffuse", light.diffuse);
+	setVec3(name + ".specular", light.specular);
+	SetFloat(name + ".cutOff", light.cutOff);
+	SetFloat(name + ".outerCutOff", light.outerCutOff);
 }
