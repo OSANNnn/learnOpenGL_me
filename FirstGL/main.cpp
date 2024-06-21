@@ -63,6 +63,19 @@ int main()
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
 
+	glm::vec3 cubePositions[] = {
+		vec3(0.0f, 0.0f, 0.0f),
+		vec3(2.0f, 5.0f, -15.0f),
+		vec3(-1.5f, -2.2f, -2.5f),
+		vec3(-3.8f, -2.0f, -12.3f),
+		vec3(2.4f, -0.4f, -3.5f),
+		vec3(-1.7f, 3.0f, -7.5f),
+		vec3(1.3f, -2.0f, -2.5f),
+		vec3(1.5f, 2.0f, -2.5f),
+		vec3(1.5f, 0.2f, -1.5f),
+		vec3(-1.3f, 1.0f, -1.5f)
+	};
+
 	float vertices[] = {
 		// positions          // normals           // texture coords
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
@@ -127,7 +140,7 @@ int main()
 	Light lightCube;
 
 	lightCube.position = lightPos;
-	lightCube.ambient = vec3(0.2f);
+	lightCube.ambient = vec3(0.1f);
 	lightCube.diffuse = lightColor;
 	lightCube.specular = lightColor;
 
@@ -185,7 +198,7 @@ int main()
 		lightCube.position.y = (float) sin(glfwGetTime() / 2.0f) * 1.0f;
 		lightCube.position.z = (float) cos(glfwGetTime());	*/	
 
-		lightShader.Use();
+		/*lightShader.Use();
 		lightShader.setVec3("lightColor", lightColor);
 		lightsourceVAO.Bind();
 		model = mat4(1.0f);
@@ -194,22 +207,28 @@ int main()
 		lightShader.setMat4f("model", model);
 		lightShader.setMat4f("view", view);
 		lightShader.setMat4f("projection", projection);
-		lightsourceVAO.Draw();
+		lightsourceVAO.Draw();*/
 
-		cubeVAO.Bind();
-		cubeShader.Use();
-		cubeShader.SetFloat("material.shininess", 64.0f);
-		cubeShader.setLight("light", lightCube);
-		model = mat4(1.0);
-		//model = rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
-		cubeShader.setMat4f("model", model);
-		cubeShader.setMat4f("view", view);
-		cubeShader.setMat4f("projection", projection);
-		cubeShader.setVec3("viewPos", camera.position());
-		reinforcedBox.Activate(0);
-		reinforcedBoxSpecularMap.Activate(1);
-		emissionMatrix.Activate(2);
-		cubeVAO.Draw();
+		for (int i = 0; i < 10; i++)
+		{
+			cubeVAO.Bind();
+			cubeShader.Use();
+			cubeShader.SetFloat("material.shininess", 64.0f);
+			cubeShader.setLight("light", lightCube);
+			cubeShader.setVec3("light.direction", vec3(-0.2f, -1.0f, -0.3f));
+			model = mat4(1.0f);
+			model = translate(model, cubePositions[i]);
+			float angle = 20.0f * i;
+			model = rotate(model, radians(angle), vec3(0.1f, 0.3f, 0.5f));
+			cubeShader.setMat4f("model", model);
+			cubeShader.setMat4f("view", view);
+			cubeShader.setMat4f("projection", projection);
+			cubeShader.setVec3("viewPos", camera.position());
+			reinforcedBox.Activate(0);
+			reinforcedBoxSpecularMap.Activate(1);
+			emissionMatrix.Activate(2);
+			cubeVAO.Draw();
+		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
