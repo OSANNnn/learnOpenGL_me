@@ -18,12 +18,6 @@ struct Material {
 	Material(glm::vec3 amb, glm::vec3 diff, glm::vec3 spec, float shine) : ambient(amb), diffuse(diff), specular(spec), shininess(shine) {};
 };
 
-struct Light {
-	glm::vec3 position;
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-};
 
 //material list
 static Material missingMaterial = { glm::vec3(1.0, 0.0, 1.0), glm::vec3(1.0, 0.0, 1.0), glm::vec3(0.0), 1.0f };

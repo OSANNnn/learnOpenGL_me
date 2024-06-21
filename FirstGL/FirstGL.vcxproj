@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="keyboard.h" />
+    <ClInclude Include="lights.hpp" />
     <ClInclude Include="materials.hpp" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="Shader.hpp" />

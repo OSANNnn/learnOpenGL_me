@@ -119,6 +119,7 @@ public:
 
 	float fov() const { return m_Zoom; }
 	glm::vec3 position() const { return m_Position; }
+	glm::vec3 front() const { return m_Front; }
 	void setSpeed(float speed) { m_MovementSpeed = speed; }
 
 private:

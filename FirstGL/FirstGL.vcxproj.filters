@@ -92,6 +92,9 @@
     <ClInclude Include="mouse.h">
       <Filter>Header Files\io</Filter>
     </ClInclude>
+    <ClInclude Include="lights.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">
