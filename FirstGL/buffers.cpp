@@ -35,7 +35,7 @@ void Buffer::Bind()
 		case GL_ELEMENT_ARRAY_BUFFER:
 			glBindBuffer(BufferType, ID);
 			break;
-		case GL_TEXTURE_BUFFER:
+		case GL_TEXTURE_2D:
 			glBindTexture(BufferType, ID);
 			break;
 		case GL_VERTEX_ARRAY:
@@ -74,7 +74,7 @@ void Buffer::UnBind()
 	case GL_ELEMENT_ARRAY_BUFFER:
 		glBindBuffer(BufferType, 0);
 		break;
-	case GL_TEXTURE_BUFFER:
+	case GL_TEXTURE_2D:
 		glBindTexture(BufferType, 0);
 		break;
 	case GL_VERTEX_ARRAY:
@@ -94,7 +94,7 @@ void Buffer::Delete()
 	case GL_ELEMENT_ARRAY_BUFFER:
 		glDeleteBuffers(1, &ID);
 		break;
-	case GL_TEXTURE_BUFFER:
+	case GL_TEXTURE_2D:
 		glDeleteTextures(1, &ID);
 		break;
 	case GL_VERTEX_ARRAY:
@@ -156,15 +156,24 @@ Texture::Texture() : Buffer(GL_TEXTURE_2D) { }
 
 void Texture::Activate(int index)
 {
+	Bind();
 	glActiveTexture(GL_TEXTURE0 + index);
 }
 
-void Texture::TexData(const char* filename, bool alpha)
+void Texture::TexData(const char* filename)
 {
-	unsigned char* data;
 	int width, height, nrChannels;
-	data = stbi_load(filename, &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
 	// set the texture wrapping/filtering options (on currently bound texture)
+
+	GLenum format;
+	if (nrChannels == 1)
+		format = GL_RED;
+	else if (nrChannels == 3)
+		format = GL_RGB;
+	else if (nrChannels == 4)
+		format = GL_RGBA;
+	Bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -172,16 +181,9 @@ void Texture::TexData(const char* filename, bool alpha)
 
 	if (data)
 	{
-		if (alpha == true)
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
-		else
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		
 		Width = width;
 		Height = height;
 		Channels = nrChannels;
@@ -191,5 +193,6 @@ void Texture::TexData(const char* filename, bool alpha)
 		std::cout << "Failed to load texture: \"" << filename << "\"" << std::endl;
 	}
 
+	UnBind();
 	stbi_image_free(data);
 }
