@@ -6,8 +6,7 @@
 
 #define MISSING_MATERIAL glm::vec3(1.0, 0.0, 1.0)
 
-struct Material {	
-	Buffers::Texture *diffuseMap = NULL;
+struct Material {
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
