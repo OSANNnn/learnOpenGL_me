@@ -111,6 +111,10 @@ int main()
 	Shader cubeShader("colorCube.vert", "colorCube.frag");
 	Shader lightShader("light.vert", "light.frag");
 
+	cubeShader.Use();
+	cubeShader.SetInt("material.diffuse", 0);
+	cubeShader.SetInt("material.specular", 1);
+
 	VBO cubeVBO;
 	VAO cubeVAO, lightsourceVAO;
 	GLuint CubeVerticesCount = 36;
@@ -119,8 +123,6 @@ int main()
 	vec3 lightColor(1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	Material cubeMaterial(cubeColor);
-	Light lightCube{};
 	Texture reinforcedBox;
 	Texture reinforcedBoxSpecularMap;
 
@@ -153,16 +155,6 @@ int main()
 	mat4 model(1.0f);
 	float aspect = (float)width / height;
 
-	lightCube.position = lightPos;
-	lightCube.ambient = vec3(0.2f);
-	lightCube.diffuse = vec3(0.5f);
-	lightCube.specular = vec3(1.0f);
-
-	/*cubeMaterial.ambient = cubeColor;
-	cubeMaterial.diffuse = cubeColor;
-	cubeMaterial.specular = vec3(0.5f, 0.5f, 0.5f);
-	cubeMaterial.shininess = 32.0f;*/
-
 	glEnable(GL_DEPTH_TEST);
 
 	//main render loop -----------------------------------------------------------------------------
@@ -171,9 +163,11 @@ int main()
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
-
 		processInput(window, camera);
+		
+		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
+		view = camera.getViewMatrix();
+
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -186,7 +180,7 @@ int main()
 		lightShader.setVec3("lightColor", lightColor);
 		lightsourceVAO.Bind();
 		model = mat4(1.0f);
-		model = translate(model, lightCube.position);
+		model = translate(model, lightPos);
 		model = scale(model, vec3(0.2f));
 		lightShader.setMat4f("model", model);
 		lightShader.setMat4f("view", view);
@@ -195,15 +189,11 @@ int main()
 
 		cubeVAO.Bind();
 		cubeShader.Use();
-		cubeShader.setVec3("material.ambient", vec3(1.0f));
-		cubeShader.SetInt("material.diffuse", 0);
-		cubeShader.SetInt("material.specular", 1);
 		cubeShader.SetFloat("material.shininess", 64.0f);
 		cubeShader.setVec3("light.position", lightPos);
 		cubeShader.setVec3("light.ambient", vec3(0.2f));
 		cubeShader.setVec3("light.diffuse", vec3(1.0f));
 		cubeShader.setVec3("light.specular", vec3(1.0f, 1.0f, 1.0f));
-		view = camera.getViewMatrix();
 		model = mat4(1.0);
 		//model = rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 		cubeShader.setMat4f("model", model);
