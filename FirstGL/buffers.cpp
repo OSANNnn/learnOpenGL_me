@@ -160,11 +160,12 @@ void Texture::Activate(int index)
 	Bind();
 }
 
-void Texture::TexData(const char* filename)
+void Texture::TexData(const char* filename, bool linear)
 {
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
 	
+
 	if (data)
 	{
 		GLenum format;
@@ -175,11 +176,23 @@ void Texture::TexData(const char* filename)
 		else if (nrChannels == 4)
 			format = GL_RGBA;
 
+		GLenum filteringMin;
+		GLenum filteringMag;
+		if (linear)
+		{
+			filteringMag = GL_LINEAR;
+			filteringMin = GL_LINEAR_MIPMAP_LINEAR;
+		}
+		else
+		{
+			filteringMag = GL_NEAREST;
+			filteringMin = GL_NEAREST_MIPMAP_NEAREST;
+		}
 		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filteringMin);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filteringMag);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);

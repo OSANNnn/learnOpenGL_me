@@ -62,7 +62,7 @@ namespace Buffers
 	public:
 		Texture();
 		void Activate(int index);
-		void TexData(const char* filename);
+		void TexData(const char* filename, bool linear = true);
 	};
 }
 #endif // !BUFFERS_H

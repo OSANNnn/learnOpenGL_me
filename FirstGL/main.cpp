@@ -114,6 +114,7 @@ int main()
 	cubeShader.Use();
 	cubeShader.SetInt("material.diffuse", 0);
 	cubeShader.SetInt("material.specular", 1);
+	cubeShader.SetInt("material.emission", 2);
 
 	VBO cubeVBO;
 	VAO cubeVAO, lightsourceVAO;
@@ -123,11 +124,20 @@ int main()
 	vec3 lightColor(1.0f);
 	vec3 lightPos(1.2f, 1.0f, 2.0f);
 
+	Light lightCube;
+
+	lightCube.position = lightPos;
+	lightCube.ambient = vec3(0.2f);
+	lightCube.diffuse = lightColor;
+	lightCube.specular = lightColor;
+
 	Texture reinforcedBox;
 	Texture reinforcedBoxSpecularMap;
+	Texture emissionMatrix;
 
 	reinforcedBox.TexData("container2.png");
 	reinforcedBoxSpecularMap.TexData("container2_specular.png");
+	emissionMatrix.TexData("matrix.jpg", false);
 
 	cubeVAO.Bind();
 	cubeVBO.Bind();
@@ -145,7 +155,6 @@ int main()
 	cubeVBO.UnBind();
 
 	stbi_set_flip_vertically_on_load(true);
-
 
 	//uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -180,7 +189,7 @@ int main()
 		lightShader.setVec3("lightColor", lightColor);
 		lightsourceVAO.Bind();
 		model = mat4(1.0f);
-		model = translate(model, lightPos);
+		model = translate(model, lightCube.position);
 		model = scale(model, vec3(0.2f));
 		lightShader.setMat4f("model", model);
 		lightShader.setMat4f("view", view);
@@ -190,10 +199,7 @@ int main()
 		cubeVAO.Bind();
 		cubeShader.Use();
 		cubeShader.SetFloat("material.shininess", 64.0f);
-		cubeShader.setVec3("light.position", lightPos);
-		cubeShader.setVec3("light.ambient", vec3(0.2f));
-		cubeShader.setVec3("light.diffuse", vec3(1.0f));
-		cubeShader.setVec3("light.specular", vec3(1.0f, 1.0f, 1.0f));
+		cubeShader.setLight("light", lightCube);
 		model = mat4(1.0);
 		//model = rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 		cubeShader.setMat4f("model", model);
@@ -202,6 +208,7 @@ int main()
 		cubeShader.setVec3("viewPos", camera.position());
 		reinforcedBox.Activate(0);
 		reinforcedBoxSpecularMap.Activate(1);
+		emissionMatrix.Activate(2);
 		cubeVAO.Draw();
 
 		glfwSwapBuffers(window);
@@ -217,6 +224,7 @@ int main()
 	lightShader.Delete();
 	reinforcedBox.Delete();
 	reinforcedBoxSpecularMap.Delete();
+	emissionMatrix.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();
