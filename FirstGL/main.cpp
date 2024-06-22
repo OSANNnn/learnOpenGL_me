@@ -13,6 +13,7 @@
 #include "lights.hpp"
 #include "keyboard.h"
 #include "mouse.h"
+#include <assimp/Importer.hpp>
 
 
 using namespace std;
@@ -128,45 +129,10 @@ int main()
 		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 	};
-	
-	Shader cubeShader("colorCube.vert", "colorCube.frag");
-	Shader lightShader("light.vert", "light.frag");
-
-	cubeShader.Use();
-	cubeShader.SetInt("material.diffuse", 0);
-	cubeShader.SetInt("material.specular", 1);
-	cubeShader.SetInt("material.emission", 2);
 
 	VBO cubeVBO;
 	VAO cubeVAO, lightsourceVAO;
 	GLuint CubeVerticesCount = 36;
-	
-	DirectionalLight directionalLight;
-	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
-	directionalLight.ambient = vec3(0.1f);
-	directionalLight.diffuse = vec3(1.0f);
-	directionalLight.specular = vec3(0.0f);
-
-	PointLight lightCube[4];
-
-	for (int i = 0; i < 4; i++) {
-		lightCube[i].position = pointLightPositions[i];
-		lightCube[i].ambient = vec3(0.1f);
-		lightCube[i].diffuse = vec3(1.0f);
-		lightCube[i].specular = vec3(1.0f);
-		lightCube[i].constant = 1.0f;
-		lightCube[i].linear = 0.9f;
-		lightCube[i].quadratic = 0.032f;
-	}
-
-
-	Texture reinforcedBox;
-	Texture reinforcedBoxSpecularMap;
-	Texture emissionMatrix;
-
-	reinforcedBox.TexData("container2.png");
-	reinforcedBoxSpecularMap.TexData("container2_specular.png");
-	emissionMatrix.TexData("matrix.jpg", false);
 
 	cubeVAO.Bind();
 	cubeVBO.Bind();
@@ -182,25 +148,88 @@ int main()
 	lightsourceVAO.setVertexCount(CubeVerticesCount);
 	lightsourceVAO.UnBind();
 	cubeVBO.UnBind();
+	
+	Shader cubeShader("colorCube.vert", "colorCube.frag");
+	Shader lightShader("light.vert", "light.frag");
+		
+	DirectionalLight directionalLight;
+	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
+	directionalLight.ambient = vec3(0.3f);
+	directionalLight.diffuse = vec3(1.0f, 1.0f, 0.8f);
+	directionalLight.specular = vec3(1.0f, 1.0f, 0.8f);
+
+	PointLight lightCube[4];
+	for (int i = 0; i < 4; i++) {
+		vec3 lightColor;
+		switch (i) {
+		case 0:
+			lightColor = vec3(1.0f, 1.0f, 0.0f);
+			break;
+		case 1:
+			lightColor = vec3(0.0f, 1.0f, 1.0f);
+			break;
+		case 2:
+			lightColor = vec3(1.0f, 0.0f, 1.0f);
+			break;
+		case 3:
+			lightColor = vec3(0.0f, 1.0f, 0.0f);
+			break;
+		}
+
+		lightCube[i].position = pointLightPositions[i];
+		lightCube[i].ambient = vec3(0.0f);
+		lightCube[i].diffuse = lightColor;
+		lightCube[i].specular = lightColor;
+		lightCube[i].constant = 1.0f;
+		lightCube[i].linear = 0.0009f;
+		lightCube[i].quadratic = 0.032f;
+	}
+
+	SpotLight torch;
+	torch.position = camera.position();
+	torch.position = camera.front();
+	torch.ambient = vec3(0.2f);
+	torch.diffuse = vec3(0.8f);
+	torch.specular = vec3(0.8);
+	torch.cutOff = cos(radians(12.5f));
+	torch.outerCutOff = cos(radians(15.0f));
 
 	stbi_set_flip_vertically_on_load(true);
+	Texture reinforcedBox;
+	Texture reinforcedBoxSpecularMap;
+	Texture emissionMatrix;
+	reinforcedBox.TexData("container2.png");
+	reinforcedBoxSpecularMap.TexData("container2_specular.png");
+	emissionMatrix.TexData("matrix.jpg", false);
 
-	//uncomment this call to draw in wireframe polygons.
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	cubeShader.Use();
+	cubeShader.SetInt("material.diffuse", 0);
+	cubeShader.SetInt("material.specular", 1);
+	cubeShader.SetInt("material.emission", 2);
+	cubeShader.SetFloat("material.shininess", 64.0f);
+	cubeShader.setDirectionalLight("directionalLight", directionalLight);
+	/*cubeShader.setPointLight("pointLights[0]", lightCube[0]);
+	cubeShader.setPointLight("pointLights[1]", lightCube[1]);
+	cubeShader.setPointLight("pointLights[2]", lightCube[2]);
+	cubeShader.setPointLight("pointLights[3]", lightCube[3]);*/
+	cubeShader.SetFloat("material.emissionIntensity", 0.0f);
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
 	mat4 model(1.0f);
 	float aspect = (float)width / height;
+	vec3 clearColor(0.2f, 0.7f, 1.0f);
 
+	//uncomment this call to draw in wireframe polygons.
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnable(GL_DEPTH_TEST);
-
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+
 		processInput(window, camera);
 		
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
@@ -209,15 +238,10 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//random moving light
-		/*lightCube.position.x = 1.0f + (float) sin(glfwGetTime()) * 2.0f;
-		lightCube.position.y = (float) sin(glfwGetTime() / 2.0f) * 1.0f;
-		lightCube.position.z = (float) cos(glfwGetTime());	*/	
-
 		lightShader.Use();
-		lightShader.setVec3("lightColor", vec3(1.0f));
 		lightsourceVAO.Bind();
 		for (int i = 0; i < 4; i++) {
+			lightShader.setVec3("lightColor", lightCube[i].diffuse);
 			model = mat4(1.0f);
 			model = translate(model, lightCube[i].position);
 			model = scale(model, vec3(0.2f));
@@ -229,23 +253,15 @@ int main()
 
 		cubeVAO.Bind();
 		cubeShader.Use();
-		cubeShader.SetFloat("material.shininess", 128.0f);
-		/*cubeShader.setVec3("directionalLight.direction", vec3(-0.2f, -1.0f, -0.3f));
-		cubeShader.setVec3("directionalLight.ambient", vec3(0.1));
-		cubeShader.setVec3("directionalLight.diffuse", vec3(1.0));
-		cubeShader.setVec3("directionalLight.specular", vec3(1.0));*/
-		cubeShader.setDirectionalLight("directionalLight", directionalLight);
-		cubeShader.setPointLight("pointLights[0]", lightCube[0]);
-		cubeShader.setPointLight("pointLights[1]", lightCube[1]);
-		cubeShader.setPointLight("pointLights[2]", lightCube[2]);
-		cubeShader.setPointLight("pointLights[3]", lightCube[3]);
-
 		for (int i = 0; i < 10; i++)
 		{
 			model = mat4(1.0f);
 			model = translate(model, cubePositions[i]);
 			float angle = 20.0f * i;
 			model = rotate(model, radians(angle), vec3(0.1f, 0.3f, 0.5f));
+			torch.position = camera.position();
+			torch.direction = camera.front();
+			//cubeShader.setSpotLight("spotLight", torch);
 			cubeShader.setMat4f("model", model);
 			cubeShader.setMat4f("view", view);
 			cubeShader.setMat4f("projection", projection);

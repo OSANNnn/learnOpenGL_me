@@ -9,6 +9,7 @@ struct Material {
 	sampler2D specular;
 	sampler2D emission;
 	float shininess;
+	float emissionIntensity;
 };
 
 struct DirectionalLight {
@@ -70,10 +71,12 @@ void main()
 
 	for (int i = 0; i < NR_POINT_LIGHT; i++)
 	{
-		finalColor += calcPointLight(pointLights[i], norm, FragPos, viewDir);
+		//finalColor += calcPointLight(pointLights[i], norm, FragPos, viewDir);
 	}
 
-	//finalColor += calcSpotLight(spotLight, norm, FragPos, viewDir);
+	finalColor += calcSpotLight(spotLight, norm, FragPos, viewDir);
+
+	finalColor += texture(material.emission, TexCoords).rgb * material.emissionIntensity;
 
 	FragColor = vec4(finalColor, 1.0);
 
