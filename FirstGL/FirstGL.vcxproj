@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)..\glm-master;$(SolutionDir)..\STB_Texture_loader;$(SolutionDir)..\GLAD\include\;$(SolutionDir)..\glfw-3.4\include\GLFW;$(SolutionDir)..\assimp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\assimp\lib;$(SolutionDir)..\glfw-3.4\build\src\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dep\glm-master;$(SolutionDir)dep\STB_Texture_loader;$(SolutionDir)dep\GLAD\include\;$(SolutionDir)dep\glfw-3.4\include\GLFW;$(SolutionDir)dep\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dep\assimp\lib;$(SolutionDir)dep\glfw-3.4\build\src\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)..\glm-master;$(SolutionDir)..\STB_Texture_loader;$(SolutionDir)..\GLAD\include\;$(SolutionDir)..\glfw-3.4\include\GLFW;$(SolutionDir)..\assimp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\assimp\lib;$(SolutionDir)..\glfw-3.4\build\src\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dep\glm-master;$(SolutionDir)dep\STB_Texture_loader;$(SolutionDir)dep\GLAD\include\;$(SolutionDir)dep\glfw-3.4\include\GLFW;$(SolutionDir)dep\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dep\assimp\lib;$(SolutionDir)dep\glfw-3.4\build\src\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,6 +142,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="screen.cpp" />
     <ClCompile Include="screen.hpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lights.hpp" />
     <ClInclude Include="materials.hpp" />
+    <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="utils.hpp" />

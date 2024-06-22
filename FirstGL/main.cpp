@@ -195,9 +195,9 @@ int main()
 	torch.outerCutOff = cos(radians(15.0f));
 
 	stbi_set_flip_vertically_on_load(true);
-	Texture reinforcedBox;
-	Texture reinforcedBoxSpecularMap;
-	Texture emissionMatrix;
+	Texture reinforcedBox("pippo");
+	Texture reinforcedBoxSpecularMap("pippo");
+	Texture emissionMatrix("pippo");
 	reinforcedBox.TexData("container2.png");
 	reinforcedBoxSpecularMap.TexData("container2_specular.png");
 	emissionMatrix.TexData("matrix.jpg", false);

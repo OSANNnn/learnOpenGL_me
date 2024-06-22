@@ -152,7 +152,15 @@ void VAO::DisableAtrrib(GLint attribute)
 	glDisableVertexAttribArray(attribute);
 }
 
-Texture::Texture() : Buffer(GL_TEXTURE_2D) { }
+Texture::Texture(std::string type) : Buffer(GL_TEXTURE_2D)
+{
+	_Type = type;
+}
+
+GLuint Buffers::Texture::getID()
+{
+	return ID;
+}
 
 void Texture::Activate(int index)
 {
@@ -208,4 +216,9 @@ void Texture::TexData(const char* filename, bool linear)
 	}
 
 	stbi_image_free(data);
+}
+
+std::string Buffers::Texture::Type()
+{
+	return _Type;
 }

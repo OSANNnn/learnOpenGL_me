@@ -1,6 +1,8 @@
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
+#include <iostream>
+#include <string>
 #include <glad/glad.h>
 #include <glfw3.h>
 
@@ -59,10 +61,13 @@ namespace Buffers
 	{
 	private:
 		int Width, Height, Channels;
+		std::string _Type;
 	public:
-		Texture();
+		Texture(std::string type);
+		GLuint getID();
 		void Activate(int index);
 		void TexData(const char* filename, bool linear = true);
+		std::string Type();
 	};
 }
 #endif // !BUFFERS_H
