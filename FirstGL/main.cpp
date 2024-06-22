@@ -149,7 +149,7 @@ int main()
 	lightsourceVAO.UnBind();
 	cubeVBO.UnBind();
 	
-	Shader cubeShader("colorCube.vert", "colorCube.frag");
+	Shader cubeShader("phongModel.vert", "phongModel.frag");
 	Shader lightShader("light.vert", "light.frag");
 		
 	DirectionalLight directionalLight;

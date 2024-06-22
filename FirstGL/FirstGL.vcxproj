@@ -162,8 +162,8 @@
     <ClInclude Include="buffers.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="colorCube.frag" />
-    <None Include="colorCube.vert" />
+    <None Include="phongModel.frag" />
+    <None Include="phongModel.vert" />
     <None Include="default.frag" />
     <None Include="default.vert" />
     <None Include="light.frag" />
