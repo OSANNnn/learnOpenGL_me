@@ -13,7 +13,6 @@
 #include "lights.hpp"
 #include "keyboard.h"
 #include "mouse.h"
-#include <assimp/Importer.hpp>
 
 
 using namespace std;
@@ -200,7 +199,7 @@ int main()
 	Texture emissionMatrix("pippo");
 	reinforcedBox.TexData("container2.png");
 	reinforcedBoxSpecularMap.TexData("container2_specular.png");
-	emissionMatrix.TexData("matrix.jpg", false);
+	emissionMatrix.TexData("matrix.jpg","", false);
 
 	cubeShader.Use();
 	cubeShader.SetInt("material.diffuse", 0);

@@ -152,9 +152,21 @@ void VAO::DisableAtrrib(GLint attribute)
 	glDisableVertexAttribArray(attribute);
 }
 
+Buffers::Texture::Texture() : Buffer(GL_TEXTURE_2D) { }
+
 Texture::Texture(std::string type) : Buffer(GL_TEXTURE_2D)
 {
-	_Type = type;
+	Type = type;
+}
+
+void Buffers::Texture::setType(std::string type)
+{
+	Type = type;
+}
+
+void Buffers::Texture::setPath(std::string path)
+{
+	Path = path;
 }
 
 GLuint Buffers::Texture::getID()
@@ -168,10 +180,15 @@ void Texture::Activate(int index)
 	Bind();
 }
 
-void Texture::TexData(const char* filename, bool linear)
+void Texture::TexData(const char* path, const std::string& directory, bool linear)
 {
+	std::string filename = std::string(path);
+
+	if (directory.length() > 0)
+		filename = directory + '/' + filename;
+
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
 	
 
 	if (data)
@@ -186,6 +203,7 @@ void Texture::TexData(const char* filename, bool linear)
 
 		GLenum filteringMin;
 		GLenum filteringMag;
+
 		if (linear)
 		{
 			filteringMag = GL_LINEAR;
@@ -196,6 +214,7 @@ void Texture::TexData(const char* filename, bool linear)
 			filteringMag = GL_NEAREST;
 			filteringMin = GL_NEAREST_MIPMAP_NEAREST;
 		}
+
 		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -218,7 +237,7 @@ void Texture::TexData(const char* filename, bool linear)
 	stbi_image_free(data);
 }
 
-std::string Buffers::Texture::Type()
+std::string Buffers::Texture::type()
 {
-	return _Type;
+	return Type;
 }

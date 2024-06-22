@@ -27,6 +27,8 @@ namespace Buffers
 	
 	};
 
+
+
 	class VAO : public Buffer
 	{
 	private:
@@ -40,6 +42,8 @@ namespace Buffers
 		void DisableAtrrib(GLint attribute);
 	};
 
+
+
 	class VBO : public Buffer
 	{
 	private:
@@ -50,6 +54,8 @@ namespace Buffers
 		GLuint VertexCount();
 	};
 
+
+
 	class EBO : public Buffer
 	{
 	public:
@@ -57,17 +63,23 @@ namespace Buffers
 		void Draw(GLenum mode = GL_TRIANGLES);
 	};
 
+
+
 	class Texture : public Buffer
 	{
 	private:
 		int Width, Height, Channels;
-		std::string _Type;
+		std::string Type;
+		std::string Path;
 	public:
+		Texture();
 		Texture(std::string type);
+		void setType(std::string type);
+		void setPath(std::string path);
+		std::string type();
 		GLuint getID();
 		void Activate(int index);
-		void TexData(const char* filename, bool linear = true);
-		std::string Type();
+		void TexData(const char* path, const std::string& directory = "", bool linear = true);
 	};
 }
 #endif // !BUFFERS_H

@@ -16,15 +16,15 @@ void Mesh::Draw(Shader& shader)
 	std::string number;
 
 	int i = 0;
-	for (auto& tex : Textures)
+	for (Buffers::Texture& tex : Textures)
 	{
 		tex.Activate(i);
-		if (tex.Type() == "texture_diffuse")
+		if (tex.type() == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
-		else if (tex.Type() == "texture_specular")
+		else if (tex.type() == "texture_specular")
 			number = std::to_string(specularNr++);
 
-		shader.SetInt(("material." + tex.Type() + number).c_str(), i);
+		shader.SetInt(("material." + tex.type() + number).c_str(), i);
 		tex.Bind();
 		i++;
 	}
