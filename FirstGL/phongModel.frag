@@ -4,13 +4,7 @@
 
 out vec4 FragColor;
 
-struct Material {
-	sampler2D diffuse;
-	sampler2D specular;
-	sampler2D emission;
-	float shininess;
-	float emissionIntensity;
-};
+
 
 struct DirectionalLight {
 	vec3 direction;
@@ -71,7 +65,7 @@ void main()
 
 	for (int i = 0; i < NR_POINT_LIGHT; i++)
 	{
-		//finalColor += calcPointLight(pointLights[i], norm, FragPos, viewDir);
+		finalColor += calcPointLight(pointLights[i], norm, FragPos, viewDir);
 	}
 
 	finalColor += calcSpotLight(spotLight, norm, FragPos, viewDir);

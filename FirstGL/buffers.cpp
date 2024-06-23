@@ -241,3 +241,8 @@ std::string Buffers::Texture::type()
 {
 	return Type;
 }
+
+std::string Buffers::Texture::path()
+{
+	return Path;
+}

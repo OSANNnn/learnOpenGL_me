@@ -1,5 +1,7 @@
 #include "model.h"
 
+std::vector<Buffers::Texture> textures_loaded;
+
 void Model::Draw(Shader& shader)
 {
 	for (auto& mesh : Meshes)
@@ -45,7 +47,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
-		glm::vec3 temp;
+		glm::vec3 temp(0.0f);
 
 		temp.x = mesh->mVertices[i].x;
 		temp.y = mesh->mVertices[i].y;
@@ -59,8 +61,8 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 
 		if (mesh->mTextureCoords[0])
 		{
-			temp.x = mesh->mTextureCoords[i]->x;
-			temp.y = mesh->mTextureCoords[i]->y;
+			temp.x = mesh->mTextureCoords[0][i].x;
+			temp.y = mesh->mTextureCoords[0][i].y;
 			vertex.TexCoords = glm::vec2(temp.x, temp.y);
 		}
 		else
@@ -100,10 +102,24 @@ std::vector<Buffers::Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTex
 	{
 		aiString str;
 		mat->GetTexture(type, i, &str);
-		Buffers::Texture texture(typeName);
-		texture.TexData(str.C_Str(), Directory);
-		texture.setPath(str.C_Str());
-		temp.push_back(texture);
+		bool skip = false;
+		for (unsigned int j = 0; j < textures_loaded.size(); j++)
+		{
+			if (std::strcmp(textures_loaded[j].path().data(), str.C_Str()) == 0)
+			{
+				temp.push_back(textures_loaded[j]);
+				skip = true;
+			}
+		}
+		
+		if (!skip)
+		{
+			Buffers::Texture texture(typeName);
+			texture.TexData(str.C_Str(), Directory);
+			texture.setPath(str.C_Str());
+			temp.push_back(texture);
+			textures_loaded.push_back(texture);
+		}
 	}
 
 	return temp;

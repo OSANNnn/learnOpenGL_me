@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
+    <ClInclude Include="filesystem.hpp" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lights.hpp" />
     <ClInclude Include="materials.hpp" />
@@ -171,6 +172,9 @@
     <None Include="default.vert" />
     <None Include="light.frag" />
     <None Include="light.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fuck.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

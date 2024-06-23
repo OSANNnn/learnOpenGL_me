@@ -72,6 +72,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">
@@ -101,6 +104,12 @@
     <ClInclude Include="Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="filesystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">
@@ -115,11 +124,14 @@
     <None Include="light.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
-    <None Include="colorCube.frag">
+    <None Include="phongModel.frag">
       <Filter>Resource Files\Shaders\Fragment</Filter>
     </None>
-    <None Include="colorCube.vert">
+    <None Include="phongModel.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fuck.txt" />
   </ItemGroup>
 </Project>

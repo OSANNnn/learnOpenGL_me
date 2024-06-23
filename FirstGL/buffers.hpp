@@ -77,6 +77,7 @@ namespace Buffers
 		void setType(std::string type);
 		void setPath(std::string path);
 		std::string type();
+		std::string path();
 		GLuint getID();
 		void Activate(int index);
 		void TexData(const char* path, const std::string& directory = "", bool linear = true);

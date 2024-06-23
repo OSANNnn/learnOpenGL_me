@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
+#include <cstdlib>
 #include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -13,6 +14,7 @@
 #include "lights.hpp"
 #include "keyboard.h"
 #include "mouse.h"
+#include "model.h"
 
 
 using namespace std;
@@ -64,100 +66,26 @@ int main()
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
 
-	vec3 cubePositions[] = {
-		vec3(0.0f, 0.0f, 0.0f),
-		vec3(2.0f, 5.0f, -15.0f),
-		vec3(-1.5f, -2.2f, -2.5f),
-		vec3(-3.8f, -2.0f, -12.3f),
-		vec3(2.4f, -0.4f, -3.5f),
-		vec3(-1.7f, 3.0f, -7.5f),
-		vec3(1.3f, -2.0f, -2.5f),
-		vec3(1.5f, 2.0f, -2.5f),
-		vec3(1.5f, 0.2f, -1.5f),
-		vec3(-1.3f, 1.0f, -1.5f)
-	};
-
-	vec3 pointLightPositions[] = {
+	/*vec3 pointLightPositions[] = {
 		vec3(0.7f, 0.2f, 2.0f),
 		vec3(2.3f, -3.3f, -4.0f),
 		vec3(-4.0f, 2.0f, -12.0f),
 		vec3(0.0f, 0.0f, -3.0f)
-	};
+	};*/
 
-	float vertices[] = {
-		// positions          // normals           // texture coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-	};
-
-	VBO cubeVBO;
-	VAO cubeVAO, lightsourceVAO;
-	GLuint CubeVerticesCount = 36;
-
-	cubeVAO.Bind();
-	cubeVBO.Bind();
-	cubeVBO.Data(vertices, sizeof(vertices));
-	cubeVAO.setVertexCount(CubeVerticesCount);
-	cubeVAO.SetAttrib(0, 3, sizeof(float) * 8, 0);
-	cubeVAO.SetAttrib(1, 3, sizeof(float) * 8, 3 * sizeof(float));
-	cubeVAO.SetAttrib(2, 2, sizeof(float) * 8, 6 * sizeof(float));
-	cubeVAO.UnBind();
-
-	lightsourceVAO.Bind();
-	lightsourceVAO.SetAttrib(0, 3, sizeof(float) * 8, 0);
-	lightsourceVAO.setVertexCount(CubeVerticesCount);
-	lightsourceVAO.UnBind();
-	cubeVBO.UnBind();
-	
-	Shader cubeShader("phongModel.vert", "phongModel.frag");
-	Shader lightShader("light.vert", "light.frag");
+	//Shader cubeShader("phongModel.vert", "phongModel.frag");
+	//Shader lightShader("light.vert", "light.frag");
+	Shader defaultShader("default.vert", "default.frag");
 		
 	DirectionalLight directionalLight;
 	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
-	directionalLight.ambient = vec3(0.3f);
-	directionalLight.diffuse = vec3(1.0f, 1.0f, 0.8f);
+	directionalLight.ambient = vec3(0.1f);
+	directionalLight.diffuse = vec3(0.0f);
+	//directionalLight.diffuse = vec3(1.0f, 1.0f, 0.8f);
+	//directionalLight.specular = vec3(0.2f);
 	directionalLight.specular = vec3(1.0f, 1.0f, 0.8f);
 
-	PointLight lightCube[4];
+	/*PointLight lightCube[4];
 	for (int i = 0; i < 4; i++) {
 		vec3 lightColor;
 		switch (i) {
@@ -182,36 +110,21 @@ int main()
 		lightCube[i].constant = 1.0f;
 		lightCube[i].linear = 0.0009f;
 		lightCube[i].quadratic = 0.032f;
-	}
+	}*/
 
 	SpotLight torch;
 	torch.position = camera.position();
 	torch.position = camera.front();
-	torch.ambient = vec3(0.2f);
+	torch.ambient = vec3(0.1f);
 	torch.diffuse = vec3(0.8f);
 	torch.specular = vec3(0.8);
 	torch.cutOff = cos(radians(12.5f));
 	torch.outerCutOff = cos(radians(15.0f));
-
+	
 	stbi_set_flip_vertically_on_load(true);
-	Texture reinforcedBox("pippo");
-	Texture reinforcedBoxSpecularMap("pippo");
-	Texture emissionMatrix("pippo");
-	reinforcedBox.TexData("container2.png");
-	reinforcedBoxSpecularMap.TexData("container2_specular.png");
-	emissionMatrix.TexData("matrix.jpg","", false);
 
-	cubeShader.Use();
-	cubeShader.SetInt("material.diffuse", 0);
-	cubeShader.SetInt("material.specular", 1);
-	cubeShader.SetInt("material.emission", 2);
-	cubeShader.SetFloat("material.shininess", 64.0f);
-	cubeShader.setDirectionalLight("directionalLight", directionalLight);
-	/*cubeShader.setPointLight("pointLights[0]", lightCube[0]);
-	cubeShader.setPointLight("pointLights[1]", lightCube[1]);
-	cubeShader.setPointLight("pointLights[2]", lightCube[2]);
-	cubeShader.setPointLight("pointLights[3]", lightCube[3]);*/
-	cubeShader.SetFloat("material.emissionIntensity", 0.0f);
+	Model backpack("../assets/backpack/backpack.obj");
+
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -237,39 +150,18 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		lightShader.Use();
-		lightsourceVAO.Bind();
-		for (int i = 0; i < 4; i++) {
-			lightShader.setVec3("lightColor", lightCube[i].diffuse);
-			model = mat4(1.0f);
-			model = translate(model, lightCube[i].position);
-			model = scale(model, vec3(0.2f));
-			lightShader.setMat4f("model", model);
-			lightShader.setMat4f("view", view);
-			lightShader.setMat4f("projection", projection);
-			lightsourceVAO.Draw();
-		}
-
-		cubeVAO.Bind();
-		cubeShader.Use();
-		for (int i = 0; i < 10; i++)
-		{
-			model = mat4(1.0f);
-			model = translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = rotate(model, radians(angle), vec3(0.1f, 0.3f, 0.5f));
-			torch.position = camera.position();
-			torch.direction = camera.front();
-			//cubeShader.setSpotLight("spotLight", torch);
-			cubeShader.setMat4f("model", model);
-			cubeShader.setMat4f("view", view);
-			cubeShader.setMat4f("projection", projection);
-			cubeShader.setVec3("viewPos", camera.position());
-			reinforcedBox.Activate(0);
-			reinforcedBoxSpecularMap.Activate(1);
-			emissionMatrix.Activate(2);
-			cubeVAO.Draw();
-		}
+		//defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
+		model = mat4(1.0f);
+		model = scale(model, vec3(0.2f, 0.2f, 0.2f));
+		defaultShader.Use();
+		defaultShader.setDirectionalLight("directionalLight", directionalLight);
+		defaultShader.setMat4f("uModel", model);
+		defaultShader.setMat4f("uView", view);
+		defaultShader.setMat4f("uProjection", projection);
+		defaultShader.setVec3("viewPos", camera.position());
+		defaultShader.SetFloat("material.shininess", 64.f);
+		backpack.Draw(defaultShader);
+		
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -277,14 +169,7 @@ int main()
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
-	cubeVAO.Delete();
-	cubeVBO.Delete();
-	lightsourceVAO.Delete();
-	cubeShader.Delete();
-	lightShader.Delete();
-	reinforcedBox.Delete();
-	reinforcedBoxSpecularMap.Delete();
-	emissionMatrix.Delete();
+
 
 	//clean memory and close the program
 	glfwTerminate();
