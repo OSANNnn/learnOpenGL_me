@@ -80,10 +80,21 @@ int main()
 	DirectionalLight directionalLight;
 	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
 	directionalLight.ambient = vec3(0.1f);
-	directionalLight.diffuse = vec3(0.0f);
+	directionalLight.diffuse = vec3(1.0f);
 	//directionalLight.diffuse = vec3(1.0f, 1.0f, 0.8f);
 	//directionalLight.specular = vec3(0.2f);
 	directionalLight.specular = vec3(1.0f, 1.0f, 0.8f);
+
+	PointLight pointLight;
+
+	pointLight.position = vec3(0.0f, 0.0f, 10.0f);
+	pointLight.ambient = vec3(0.0f);
+	pointLight.diffuse = vec3(1.0f);
+	pointLight.specular = vec3(1.0f);
+	pointLight.constant = 1.0f;
+	pointLight.quadratic = 0.00009f;
+	pointLight.linear = 0.032f;
+
 
 	/*PointLight lightCube[4];
 	for (int i = 0; i < 4; i++) {
@@ -152,14 +163,16 @@ int main()
 
 		//defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
 		model = mat4(1.0f);
-		model = scale(model, vec3(0.2f, 0.2f, 0.2f));
+		model = scale(model, vec3(0.1f, 0.1f, 0.1f));
 		defaultShader.Use();
 		defaultShader.setDirectionalLight("directionalLight", directionalLight);
+		defaultShader.setPointLight("pointLight", pointLight);
 		defaultShader.setMat4f("uModel", model);
 		defaultShader.setMat4f("uView", view);
 		defaultShader.setMat4f("uProjection", projection);
 		defaultShader.setVec3("viewPos", camera.position());
-		defaultShader.SetFloat("material.shininess", 64.f);
+		defaultShader.SetFloat("material.shininess", 128.f);
+
 		backpack.Draw(defaultShader);
 		
 

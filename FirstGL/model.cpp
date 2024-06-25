@@ -34,6 +34,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
+		std::cout << "Processing meshes:" << i << std::endl;
 		processNode(node->mChildren[i], scene);
 	}
 }
@@ -43,6 +44,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Buffers::Texture> textures;
+	std::cout << "Loading vertex data..." << std::endl;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -53,14 +55,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		temp.y = mesh->mVertices[i].y;
 		temp.z = mesh->mVertices[i].z;
 		vertex.Position = temp;
-
 		temp.x = mesh->mNormals[i].x;
 		temp.y = mesh->mNormals[i].y;
 		temp.z = mesh->mNormals[i].z;
 		vertex.Normal = temp;
 
 		if (mesh->mTextureCoords[0])
-		{
+		{	
 			temp.x = mesh->mTextureCoords[0][i].x;
 			temp.y = mesh->mTextureCoords[0][i].y;
 			vertex.TexCoords = glm::vec2(temp.x, temp.y);
@@ -114,6 +115,7 @@ std::vector<Buffers::Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTex
 		
 		if (!skip)
 		{
+			std::cout << "Loading textures: " << typeName << std::endl;
 			Buffers::Texture texture(typeName);
 			texture.TexData(str.C_Str(), Directory);
 			texture.setPath(str.C_Str());

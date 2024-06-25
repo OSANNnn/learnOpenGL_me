@@ -130,6 +130,9 @@
     <None Include="phongModel.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
+    <None Include="normals.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />

@@ -166,6 +166,7 @@
     <ClInclude Include="buffers.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="normals.frag" />
     <None Include="phongModel.frag" />
     <None Include="phongModel.vert" />
     <None Include="default.frag" />
