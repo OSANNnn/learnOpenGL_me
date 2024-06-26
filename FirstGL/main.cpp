@@ -66,9 +66,9 @@ int main()
 	stbi_set_flip_vertically_on_load(true);
 
 	float quadVertices[]{
-		-0.8f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
-		-0.8f,  0.8f, 0.0f, 1.0f, 0.0f, // bottom right
-		-1.0f,  0.8f, 0.0f, 0.0f, 0.0f, // bottom left
+		-0.6f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
+		-0.6f,  0.6f, 0.0f, 1.0f, 0.0f, // bottom right
+		-1.0f,  0.6f, 0.0f, 0.0f, 0.0f, // bottom left
 		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f // top left
 	};
 
@@ -94,7 +94,8 @@ int main()
 	quad.UnBind();
 	quadIndices.UnBind();
 
-	Texture diffuse("container.jpg");
+	Texture diffuse;
+	diffuse.TexData("../assets/backpack/diffuse.jpg");
 
 	Shader texturePreview("texturePreview.vert", "texturePreview.frag");
 	Shader defaultShader("default.vert", "default.frag");
@@ -127,7 +128,7 @@ int main()
 	torch.cutOff = cos(radians(12.5f));
 	torch.outerCutOff = cos(radians(15.0f));
 
-	//Model backpack("../assets/backpack/backpack.obj");
+	Model backpack("../assets/backpack/backpack.obj");
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -155,7 +156,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		/*glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
 		model = mat4(1.0f);
 		model = scale(model, vec3(0.05f, 0.05f, 0.05f));
@@ -168,9 +169,9 @@ int main()
 		defaultShader.setMat4f("uProjection", projection);
 		defaultShader.setVec3("viewPos", camera.position());
 		defaultShader.SetFloat("material.shininess", 128.f);
-		backpack.Draw(defaultShader);*/
+		backpack.Draw(defaultShader);
 		
-		//glDisable(GL_DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST);
 		textureQuadVAO.Bind();
 		texturePreview.Use();
 		diffuse.Activate(0);
