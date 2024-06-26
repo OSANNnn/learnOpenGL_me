@@ -7,8 +7,20 @@ out vec4 FragColor;
 
 uniform sampler2D texture1;
 
+float near = 0.1f;
+float far = 100.f;
+
+float linearizeDepth(float depth);
+
 void main()
 {
-    //FragColor = vec4(TexCoord, 1.0f, 1.0f);
+//    float Depth = linearizeDepth(gl_FragCoord.z) / far;
+//    FragColor = vec4(vec3(Depth), 1.0f);
     FragColor = texture(texture1, TexCoord);
+}
+
+float linearizeDepth(float depth)
+{
+    float z = depth * 2.0f - 1.0f;
+    return (2.0f * near * far) / (far + near - z * (far - near));
 }

@@ -133,9 +133,14 @@
     <None Include="normals.frag">
       <Filter>Resource Files\Shaders\Fragment</Filter>
     </None>
-    <None Include="texturePreview.vert" />
     <None Include="texturePreview.frag">
       <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="singleColor.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="texturePreview.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

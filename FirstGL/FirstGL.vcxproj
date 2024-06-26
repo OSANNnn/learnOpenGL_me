@@ -173,6 +173,7 @@
     <None Include="default.vert" />
     <None Include="light.frag" />
     <None Include="light.vert" />
+    <None Include="singleColor.frag" />
     <None Include="texturePreview.frag" />
     <None Include="texturePreview.vert" />
   </ItemGroup>

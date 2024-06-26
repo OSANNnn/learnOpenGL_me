@@ -146,6 +146,7 @@ int main()
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
+	Shader coloredOutline("texturePreview.vert", "singleColor.frag");
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -156,7 +157,10 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_ALWAYS);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
@@ -166,34 +170,60 @@ int main()
 		lastFrame = currentFrame;
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		processInput(window, camera);
 		
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
 
+		coloredOutline.Use();
+		coloredOutline.setMat4f("view", view);
+		coloredOutline.setMat4f("projection", projection);
 		plainTextures.Use();
-		model = mat4(1.0f);
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
 
-		cubeVAO.Bind();
-		marble.Activate(0);
-		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
-		plainTextures.setMat4f("model", model);
-		cubeVAO.Draw();
-
-		model = mat4(1.0f);
-		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
-		plainTextures.setMat4f("model", model);
-		cubeVAO.Draw();
-
+		glStencilMask(0x00);
 		planeVAO.Bind();
 		metal.Activate(0);
 		model = mat4(1.0f);
 		plainTextures.setMat4f("model", model);
 		planeVAO.Draw();
-		planeVAO.UnBind();
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+		cubeVAO.Bind();
+		marble.Activate(0);
+		model = mat4(1.0f);
+		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
+		plainTextures.setMat4f("model", model);
+		cubeVAO.Draw();
+		model = mat4(1.0f);
+		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
+		plainTextures.setMat4f("model", model);
+		cubeVAO.Draw();
+
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		coloredOutline.Use();
+		cubeVAO.Bind();
+		marble.Activate(0);
+		model = mat4(1.0f);
+		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
+		model = scale(model, vec3(1.1f));
+		coloredOutline.setMat4f("model", model);
+		cubeVAO.Draw();
+		model = mat4(1.0f);
+		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
+		model = scale(model, vec3(1.1f));
+		coloredOutline.setMat4f("model", model);
+		cubeVAO.Draw();
+		cubeVAO.UnBind();
+		glStencilMask(0xFF);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glEnable(GL_DEPTH_TEST);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
