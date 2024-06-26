@@ -8,6 +8,14 @@ void Model::Draw(Shader& shader)
 		mesh.Draw(shader);
 }
 
+void Model::Delete()
+{
+	for (Mesh mesh : Meshes)
+	{
+		mesh.Delete();
+	}
+}
+
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;

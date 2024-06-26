@@ -17,7 +17,7 @@ class Model
 public:
 	Model(std::string path) { loadModel(path); }
 	void Draw(Shader& shader);
-
+	void Delete();
 private:
 	std::vector<Mesh> Meshes;
 	std::string Directory;

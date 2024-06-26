@@ -65,70 +65,87 @@ int main()
 	
 	stbi_set_flip_vertically_on_load(true);
 
-	float quadVertices[]{
-		-0.6f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
-		-0.6f,  0.6f, 0.0f, 1.0f, 0.0f, // bottom right
-		-1.0f,  0.6f, 0.0f, 0.0f, 0.0f, // bottom left
-		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f // top left
+	float cubeVertices[] = {
+	//   positions            texture Coords
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+	float planeVertices[] = {
+	//   positions            texture Coords
+		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+		-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
+		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+
+		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+		 5.0f, -0.5f, -5.0f,  2.0f, 2.0f
 	};
 
-	unsigned int indices[] = { // note that we start from 0!
-		0, 1, 3, // first triangle
-		1, 2, 3 // second triangle
-	};
+	VBO cubeVBO, planeVBO;
+	VAO cubeVAO, planeVAO;
 
-	VAO textureQuadVAO;
-	VBO quad;
-	EBO quadIndices;
+	cubeVAO.Bind();
+	cubeVBO.Bind();
+	cubeVBO.Data(cubeVertices, sizeof(cubeVertices));
+	cubeVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
+	cubeVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	cubeVAO.setVertexCount(36);
+	planeVAO.Bind();
+	planeVBO.Bind();
+	planeVBO.Data(planeVertices, sizeof(planeVertices));
+	planeVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
+	planeVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	planeVAO.setVertexCount(6);
+	planeVBO.UnBind();
+	planeVAO.UnBind();
 
-	textureQuadVAO.Bind();
-	quad.Bind();
-	quad.Data(quadVertices, sizeof(quadVertices));
-	quadIndices.Bind();
-	quadIndices.Data(indices, sizeof(quadIndices));
+	Texture marble; //cube
+	marble.TexData("../assets/textures/marble.jpg");
+	Texture metal; //floor
+	metal.TexData("../assets/textures/metal.png");
 
-	textureQuadVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
-	textureQuadVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
-
-	textureQuadVAO.UnBind();
-	quad.UnBind();
-	quadIndices.UnBind();
-
-	Texture diffuse;
-	diffuse.TexData("../assets/backpack/diffuse.jpg");
-
-	Shader texturePreview("texturePreview.vert", "texturePreview.frag");
-	Shader defaultShader("default.vert", "default.frag");
-		
-	DirectionalLight directionalLight;
-	directionalLight.direction = vec3(-0.2f, -1.0f, -0.3f);
-	directionalLight.ambient = vec3(0.1f);
-	directionalLight.diffuse = vec3(1.0f);
-	//directionalLight.diffuse = vec3(1.0f, 1.0f, 0.8f);
-	//directionalLight.specular = vec3(0.2f);
-	directionalLight.specular = vec3(1.0f, 1.0f, 0.8f);
-
-	PointLight pointLight;
-
-	pointLight.position = vec3(0.0f, 0.0f, 10.0f);
-	pointLight.ambient = vec3(0.0001f);
-	pointLight.diffuse = vec3(1.0f, 1.0f, 0.9f);
-	pointLight.specular = vec3(1.0f, 1.0f, 0.9f);
-	pointLight.constant = 1.0f;
-	pointLight.quadratic = 0.00009f;
-	pointLight.linear = 0.032f;
-
-
-	SpotLight torch;
-	torch.position = camera.position();
-	torch.position = camera.front();
-	torch.ambient = vec3(0.1f);
-	torch.diffuse = vec3(0.8f);
-	torch.specular = vec3(0.8f);
-	torch.cutOff = cos(radians(12.5f));
-	torch.outerCutOff = cos(radians(15.0f));
-
-	Model backpack("../assets/backpack/backpack.obj");
+	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
+	plainTextures.Use();
+	plainTextures.SetInt("texture1", 0);
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -139,6 +156,7 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
 
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
@@ -147,36 +165,35 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		processInput(window, camera);
 		
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-		glEnable(GL_DEPTH_TEST);
-		defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
+		plainTextures.Use();
 		model = mat4(1.0f);
-		model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-		model = translate(model, vec3(10.0f, 0.0f, 0.0f));
-		defaultShader.Use();
-		defaultShader.setDirectionalLight("directionalLight", directionalLight);
-		defaultShader.setPointLight("pointLight", pointLight);
-		defaultShader.setMat4f("uModel", model);
-		defaultShader.setMat4f("uView", view);
-		defaultShader.setMat4f("uProjection", projection);
-		defaultShader.setVec3("viewPos", camera.position());
-		defaultShader.SetFloat("material.shininess", 128.f);
-		backpack.Draw(defaultShader);
-		
-		glDisable(GL_DEPTH_TEST);
-		textureQuadVAO.Bind();
-		texturePreview.Use();
-		diffuse.Activate(0);
-		texturePreview.SetInt("uTexture", 0);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		plainTextures.setMat4f("view", view);
+		plainTextures.setMat4f("projection", projection);
+
+		cubeVAO.Bind();
+		marble.Activate(0);
+		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
+		plainTextures.setMat4f("model", model);
+		cubeVAO.Draw();
+
+		model = mat4(1.0f);
+		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
+		plainTextures.setMat4f("model", model);
+		cubeVAO.Draw();
+
+		planeVAO.Bind();
+		metal.Activate(0);
+		model = mat4(1.0f);
+		plainTextures.setMat4f("model", model);
+		planeVAO.Draw();
+		planeVAO.UnBind();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -184,13 +201,13 @@ int main()
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
-	texturePreview.Delete();
-	defaultShader.Delete();
-
-	textureQuadVAO.Delete();
-	diffuse.Delete();
-	texturePreview.Delete();
-	quadIndices.Delete();
+	cubeVAO.Delete();
+	planeVAO.Delete();
+	cubeVBO.Delete();
+	planeVBO.Delete();
+	plainTextures.Delete();
+	marble.Delete();
+	metal.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();

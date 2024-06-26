@@ -23,6 +23,7 @@ public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
 		std::vector<Buffers::Texture> textures);
 	void Draw(Shader& shader);
+	void Delete();
 
 private:
 	GLuint VAO, VBO, EBO;

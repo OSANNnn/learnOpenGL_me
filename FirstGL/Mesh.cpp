@@ -41,6 +41,18 @@ void Mesh::Draw(Shader& shader)
 	glBindVertexArray(0);
 }
 
+void Mesh::Delete()
+{
+	for (Buffers::Texture tex : Textures)
+	{
+		tex.Delete();
+	}
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+}
+
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);
