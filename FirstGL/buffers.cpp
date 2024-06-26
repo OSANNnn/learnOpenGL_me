@@ -227,7 +227,6 @@ void Texture::TexData(const char* path, const std::string& directory, bool linea
 		Width = width;
 		Height = height;
 		Channels = nrChannels;
-		UnBind();
 	}
 	else
 	{
@@ -245,4 +244,11 @@ std::string Buffers::Texture::type()
 std::string Buffers::Texture::path()
 {
 	return Path;
+}
+
+Buffers::EBO::EBO() : Buffers::Buffer(GL_ELEMENT_ARRAY_BUFFER) { }
+
+void Buffers::EBO::Draw(GLuint elements, GLenum mode)
+{
+	glDrawElements(mode, elements, GL_UNSIGNED_INT, 0);
 }

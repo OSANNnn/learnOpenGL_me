@@ -13,6 +13,8 @@ void Mesh::Draw(Shader& shader)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
 	std::string number;
 
 	int i = 0;
@@ -23,6 +25,10 @@ void Mesh::Draw(Shader& shader)
 			number = std::to_string(diffuseNr++);
 		else if (tex.type() == "texture_specular")
 			number = std::to_string(specularNr++);
+		else if (tex.type() == "texture_normals")
+			number = std::to_string(normalNr++);
+		else if (tex.type() == "texture_height")
+			number = std::to_string(heightNr++);
 
 		shader.SetInt(("material." + tex.type() + number).c_str(), i);
 		tex.Bind();

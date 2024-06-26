@@ -58,9 +58,11 @@ namespace Buffers
 
 	class EBO : public Buffer
 	{
+	private:
+		GLuint inidicesNr;
 	public:
 		EBO();
-		void Draw(GLenum mode = GL_TRIANGLES);
+		void Draw(GLuint elements, GLenum mode = GL_TRIANGLES);
 	};
 
 

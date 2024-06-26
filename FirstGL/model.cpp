@@ -86,10 +86,16 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
 		std::vector<Buffers::Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
 		std::vector<Buffers::Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());		
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+		std::vector<Buffers::Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normals");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
 	}
 
 	return Mesh(vertices, indices, textures);

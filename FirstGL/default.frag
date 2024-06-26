@@ -9,6 +9,7 @@ struct Material {
 	sampler2D texture_specular1;
 	sampler2D texture_specular2;
 	sampler2D texture_specular3;
+	sampler2D texture_normals1;
 	sampler2D texture_emission;
 	float shininess;
 	float emissionIntensity;
@@ -54,7 +55,6 @@ void main()
 	
 	vec3 finalColor = calcDirectionalLight(directionalLight, norm, viewDir);
 	finalColor += calcPointLight(pointLight, norm, FragPos, viewDir);
-	//finalColor = texture(material.texture_specular1, TexCoords).rgb;
 
 	FragColor = vec4(finalColor, 1.0f);
 }

@@ -1,7 +1,6 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
-#include <cstdlib>
 #include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,8 +23,6 @@ using namespace glm;
 //canvas size
 const unsigned int width = 800;
 const unsigned int height = 600;
-//texture mix
-float mixValue = 0.3f;
 
 Fly_Camera camera(vec3(0.0f, 0.0f, 3.0f));
 
@@ -65,16 +62,41 @@ int main()
 	glfwSetCursorPosCallback(window, Mouse::cursorPosCallback);
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
+	
+	stbi_set_flip_vertically_on_load(true);
 
-	/*vec3 pointLightPositions[] = {
-		vec3(0.7f, 0.2f, 2.0f),
-		vec3(2.3f, -3.3f, -4.0f),
-		vec3(-4.0f, 2.0f, -12.0f),
-		vec3(0.0f, 0.0f, -3.0f)
-	};*/
+	float quadVertices[]{
+		-0.8f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
+		-0.8f,  0.8f, 0.0f, 1.0f, 0.0f, // bottom right
+		-1.0f,  0.8f, 0.0f, 0.0f, 0.0f, // bottom left
+		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f // top left
+	};
 
-	//Shader cubeShader("phongModel.vert", "phongModel.frag");
-	//Shader lightShader("light.vert", "light.frag");
+	unsigned int indices[] = { // note that we start from 0!
+		0, 1, 3, // first triangle
+		1, 2, 3 // second triangle
+	};
+
+	VAO textureQuadVAO;
+	VBO quad;
+	EBO quadIndices;
+
+	textureQuadVAO.Bind();
+	quad.Bind();
+	quad.Data(quadVertices, sizeof(quadVertices));
+	quadIndices.Bind();
+	quadIndices.Data(indices, sizeof(quadIndices));
+
+	textureQuadVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
+	textureQuadVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+
+	textureQuadVAO.UnBind();
+	quad.UnBind();
+	quadIndices.UnBind();
+
+	Texture diffuse("container.jpg");
+
+	Shader texturePreview("texturePreview.vert", "texturePreview.frag");
 	Shader defaultShader("default.vert", "default.frag");
 		
 	DirectionalLight directionalLight;
@@ -88,64 +110,35 @@ int main()
 	PointLight pointLight;
 
 	pointLight.position = vec3(0.0f, 0.0f, 10.0f);
-	pointLight.ambient = vec3(0.0f);
-	pointLight.diffuse = vec3(1.0f);
-	pointLight.specular = vec3(1.0f);
+	pointLight.ambient = vec3(0.0001f);
+	pointLight.diffuse = vec3(1.0f, 1.0f, 0.9f);
+	pointLight.specular = vec3(1.0f, 1.0f, 0.9f);
 	pointLight.constant = 1.0f;
 	pointLight.quadratic = 0.00009f;
 	pointLight.linear = 0.032f;
 
-
-	/*PointLight lightCube[4];
-	for (int i = 0; i < 4; i++) {
-		vec3 lightColor;
-		switch (i) {
-		case 0:
-			lightColor = vec3(1.0f, 1.0f, 0.0f);
-			break;
-		case 1:
-			lightColor = vec3(0.0f, 1.0f, 1.0f);
-			break;
-		case 2:
-			lightColor = vec3(1.0f, 0.0f, 1.0f);
-			break;
-		case 3:
-			lightColor = vec3(0.0f, 1.0f, 0.0f);
-			break;
-		}
-
-		lightCube[i].position = pointLightPositions[i];
-		lightCube[i].ambient = vec3(0.0f);
-		lightCube[i].diffuse = lightColor;
-		lightCube[i].specular = lightColor;
-		lightCube[i].constant = 1.0f;
-		lightCube[i].linear = 0.0009f;
-		lightCube[i].quadratic = 0.032f;
-	}*/
 
 	SpotLight torch;
 	torch.position = camera.position();
 	torch.position = camera.front();
 	torch.ambient = vec3(0.1f);
 	torch.diffuse = vec3(0.8f);
-	torch.specular = vec3(0.8);
+	torch.specular = vec3(0.8f);
 	torch.cutOff = cos(radians(12.5f));
 	torch.outerCutOff = cos(radians(15.0f));
-	
-	stbi_set_flip_vertically_on_load(true);
 
-	Model backpack("../assets/backpack/backpack.obj");
-
+	//Model backpack("../assets/backpack/backpack.obj");
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
 	mat4 model(1.0f);
 	float aspect = (float)width / height;
-	vec3 clearColor(0.2f, 0.7f, 1.0f);
 
 	//uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	glEnable(GL_DEPTH_TEST);
+
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
 	{
@@ -161,9 +154,12 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
+
+		/*glEnable(GL_DEPTH_TEST);
+		defaultShader.setDirectionalLight("uDirectionalLigth", directionalLight);
 		model = mat4(1.0f);
-		model = scale(model, vec3(0.1f, 0.1f, 0.1f));
+		model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+		model = translate(model, vec3(10.0f, 0.0f, 0.0f));
 		defaultShader.Use();
 		defaultShader.setDirectionalLight("directionalLight", directionalLight);
 		defaultShader.setPointLight("pointLight", pointLight);
@@ -172,9 +168,14 @@ int main()
 		defaultShader.setMat4f("uProjection", projection);
 		defaultShader.setVec3("viewPos", camera.position());
 		defaultShader.SetFloat("material.shininess", 128.f);
-
-		backpack.Draw(defaultShader);
+		backpack.Draw(defaultShader);*/
 		
+		//glDisable(GL_DEPTH_TEST);
+		textureQuadVAO.Bind();
+		texturePreview.Use();
+		diffuse.Activate(0);
+		texturePreview.SetInt("uTexture", 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -182,7 +183,13 @@ int main()
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
+	texturePreview.Delete();
+	defaultShader.Delete();
 
+	textureQuadVAO.Delete();
+	diffuse.Delete();
+	texturePreview.Delete();
+	quadIndices.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();
