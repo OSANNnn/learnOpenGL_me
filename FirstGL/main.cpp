@@ -203,7 +203,7 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cubeVAO.Draw();
 
-
+		float scaleFactor = 1.05f;
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 		glStencilMask(0x00);
 		glDisable(GL_DEPTH_TEST);
@@ -212,12 +212,12 @@ int main()
 		marble.Activate(0);
 		model = mat4(1.0f);
 		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
-		model = scale(model, vec3(1.1f));
+		model = scale(model, vec3(scaleFactor));
 		coloredOutline.setMat4f("model", model);
 		cubeVAO.Draw();
 		model = mat4(1.0f);
 		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
-		model = scale(model, vec3(1.1f));
+		model = scale(model, vec3(scaleFactor));
 		coloredOutline.setMat4f("model", model);
 		cubeVAO.Draw();
 		cubeVAO.UnBind();

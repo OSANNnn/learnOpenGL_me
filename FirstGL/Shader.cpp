@@ -81,6 +81,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" <<
 			infoLog << std::endl;
 	}
+	else
+	{
+		std::cout << "Shaders loaded! \"" << vertexPath << "\" \"" << fragmentPath << "\"" << std::endl;
+	}
 	// delete shaders; they’re linked into our program and no longer necessary
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
