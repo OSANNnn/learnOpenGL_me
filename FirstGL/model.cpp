@@ -55,6 +55,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		temp.y = mesh->mVertices[i].y;
 		temp.z = mesh->mVertices[i].z;
 		vertex.Position = temp;
+
 		temp.x = mesh->mNormals[i].x;
 		temp.y = mesh->mNormals[i].y;
 		temp.z = mesh->mNormals[i].z;
@@ -121,7 +122,7 @@ std::vector<Buffers::Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTex
 		
 		if (!skip)
 		{
-			std::cout << "Loading textures: " << typeName << std::endl;
+			std::cout << "Loading textures: " << typeName << " \"" << str.C_Str() << "\"" << std::endl;
 			Buffers::Texture texture(typeName);
 			texture.TexData(str.C_Str(), Directory);
 			texture.setPath(str.C_Str());
