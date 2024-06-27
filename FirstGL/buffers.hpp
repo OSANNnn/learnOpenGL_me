@@ -71,6 +71,7 @@ namespace Buffers
 	{
 	private:
 		int Width, Height, Channels;
+		bool Clamp = false;
 		std::string Type;
 		std::string Path;
 	public:
@@ -78,6 +79,8 @@ namespace Buffers
 		Texture(std::string type);
 		void setType(std::string type);
 		void setPath(std::string path);
+		void setClamp(bool value = true);
+		void setRepeat(bool value = true);
 		std::string type();
 		std::string path();
 		GLuint getID();

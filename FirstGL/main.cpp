@@ -1,6 +1,7 @@
+#include <iostream>
+#include <map>
 #include <glad/glad.h>
 #include <glfw3.h>
-#include <iostream>
 #include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -65,6 +66,16 @@ int main()
 	
 	stbi_set_flip_vertically_on_load(true);
 
+	float quadVertices[] = {
+		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
+		0.0f, -0.5f,  0.0f,  0.0f,  1.0f,
+		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
+
+		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
+		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
+		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
+	};
+
 	float cubeVertices[] = {
 	//   positions            texture Coords
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -120,6 +131,43 @@ int main()
 		 5.0f, -0.5f, -5.0f,  2.0f, 2.0f
 	};
 
+	vec2 translations[100];
+
+	int index = 0;
+	float offset = 0.1f;
+	for (int y = -10; y < 10; y += 2)
+	{
+		for (int x = -10; x < 10; x += 2)
+		{
+			translations[index].x = (float)x / 10.0f + offset;
+			translations[index].y = (float)y / 10.0f + offset;
+			index++;
+		}
+	}
+
+	VBO quad;
+	VAO vegetationVao;
+
+	vegetationVao.Bind();
+	quad.Bind();
+	quad.Data(quadVertices, sizeof(quadVertices));
+	vegetationVao.SetAttrib(0, 3, 5 * sizeof(float), 0);
+	vegetationVao.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	vegetationVao.setVertexCount(6);
+	vegetationVao.UnBind();
+	quad.UnBind();
+
+	Texture plant;
+	plant.TexData("../assets/textures/window.png");
+	plant.setClamp();
+
+	vector<vec3> vegetation;
+	vegetation.push_back(vec3(-1.5f, 0.0f, -0.48f));
+	vegetation.push_back(vec3(1.5f, 0.0f, 0.51f));
+	vegetation.push_back(vec3(0.0f, 0.0f, 0.7f));
+	vegetation.push_back(vec3(-0.3f, 0.0f, -2.3f));
+	vegetation.push_back(vec3(0.5f, 0.0f, -0.6f));
+
 	VBO cubeVBO, planeVBO;
 	VAO cubeVAO, planeVAO;
 
@@ -158,9 +206,11 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glEnable(GL_STENCIL_TEST);
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	//glEnable(GL_STENCIL_TEST);
+	//glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
@@ -183,15 +233,15 @@ int main()
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
 
-		glStencilMask(0x00);
+		//glStencilMask(0x00);
 		planeVAO.Bind();
 		metal.Activate(0);
 		model = mat4(1.0f);
 		plainTextures.setMat4f("model", model);
 		planeVAO.Draw();
 
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);
+		//glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		//glStencilMask(0xFF);
 		cubeVAO.Bind();
 		marble.Activate(0);
 		model = mat4(1.0f);
@@ -203,8 +253,25 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cubeVAO.Draw();
 
-		float scaleFactor = 1.05f;
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		map<float, glm::vec3> sorted;
+		for (unsigned int i = 0; i < vegetation.size(); i++)
+		{
+			float distance = glm::length(camera.position() - vegetation[i]);
+			sorted[distance] = vegetation[i];
+		}
+
+		vegetationVao.Bind();
+		plant.Activate(0);
+		for (map<float, vec3>::reverse_iterator it = sorted.rbegin(); it !=
+			sorted.rend(); ++it)
+		{
+			model = mat4(1.0f);
+			model = translate(model, it->second);
+			plainTextures.setMat4f("model", model);
+			vegetationVao.Draw();
+		}
+
+		/*glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 		glStencilMask(0x00);
 		glDisable(GL_DEPTH_TEST);
 		coloredOutline.Use();
@@ -223,7 +290,7 @@ int main()
 		cubeVAO.UnBind();
 		glStencilMask(0xFF);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);*/
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

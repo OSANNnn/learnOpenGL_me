@@ -169,6 +169,28 @@ void Buffers::Texture::setPath(std::string path)
 	Path = path;
 }
 
+void Buffers::Texture::setClamp(bool value)
+{
+	Clamp = value;
+	Bind();
+	if (Clamp)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+	UnBind();
+}
+
+void Buffers::Texture::setRepeat(bool value)
+{
+	setClamp(!value);
+}
+
 GLuint Buffers::Texture::getID()
 {
 	return ID;
@@ -193,7 +215,7 @@ void Texture::TexData(const char* path, const std::string& directory, bool linea
 
 	if (data)
 	{
-		GLenum format;
+		GLenum format = GL_RGB;
 		if (nrChannels == 1)
 			format = GL_RED;
 		else if (nrChannels == 3)
@@ -203,6 +225,7 @@ void Texture::TexData(const char* path, const std::string& directory, bool linea
 
 		GLenum filteringMin;
 		GLenum filteringMag;
+		GLenum repeat;
 
 		if (linear)
 		{
@@ -216,8 +239,16 @@ void Texture::TexData(const char* path, const std::string& directory, bool linea
 		}
 
 		Bind();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		if (Clamp)
+		{
+			repeat = GL_CLAMP_TO_EDGE;
+		}
+		else
+		{
+			repeat = GL_REPEAT;
+		}
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeat);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeat);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filteringMin);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filteringMag);
 
