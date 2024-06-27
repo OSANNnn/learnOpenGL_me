@@ -64,7 +64,7 @@ int main()
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 	glfwSetKeyCallback(window, Keyboard::keycallback);
 	
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 
 	float quadVertices[] = {
 		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
@@ -158,7 +158,7 @@ int main()
 	quad.UnBind();
 
 	Texture plant;
-	plant.TexData("../assets/textures/window.png");
+	plant.TexData("../assets/textures/grass.png");
 	plant.setClamp();
 
 	vector<vec3> vegetation;
@@ -196,6 +196,12 @@ int main()
 	plainTextures.SetInt("texture1", 0);
 	Shader coloredOutline("texturePreview.vert", "singleColor.frag");
 
+	DirectionalLight sunLight;
+	sunLight.direction = vec3(0.0, -1.0f, 1.0);
+	sunLight.ambient = vec3(0.3f);
+	sunLight.diffuse = vec3(0.9, 0.9, 0.7);
+	sunLight.specular = vec3(0.9, 0.9, 0.7);
+
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
 	mat4 model(1.0f);
@@ -226,9 +232,9 @@ int main()
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
 
-		coloredOutline.Use();
+		/*coloredOutline.Use();
 		coloredOutline.setMat4f("view", view);
-		coloredOutline.setMat4f("projection", projection);
+		coloredOutline.setMat4f("projection", projection);*/
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
