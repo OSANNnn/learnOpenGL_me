@@ -105,53 +105,6 @@ void Buffer::Delete()
 	}
 }
 
-VAO::VAO() : Buffer(GL_VERTEX_ARRAY) { }
-
-void Buffers::VAO::setVertexCount(GLuint count)
-{
-	vertexCount = count;
-}
-
-VBO::VBO() : Buffer(GL_ARRAY_BUFFER) { }
-
-void Buffers::VBO::setVertexCount(GLuint count)
-{
-	vertexCount = count;
-}
-
-GLuint Buffers::VBO::VertexCount()
-{
-	return vertexCount;
-}
-
-void VAO::EnableAttrib(GLint attribute)
-{
-	glEnableVertexAttribArray(attribute);
-}
-
-void VAO::SetAttrib(GLuint index, GLint size, GLsizei stride, int offset, GLboolean normalize)
-{
-	glVertexAttribPointer(index, size, DataType, normalize, stride, (void*)offset);
-	EnableAttrib(index);	
-}
-
-void VAO::Draw(GLenum mode)
-{
-	if (isBound)
-	{
-		glDrawArrays(mode, 0, vertexCount);
-	}
-	else
-	{
-		std::cout << "Trying to draw unbounded vertex buffer" << std::endl;
-	}
-}
-
-void VAO::DisableAtrrib(GLint attribute)
-{
-	glDisableVertexAttribArray(attribute);
-}
-
 Buffers::Texture::Texture() : Buffer(GL_TEXTURE_2D) { }
 
 Texture::Texture(std::string type) : Buffer(GL_TEXTURE_2D)
@@ -275,11 +228,4 @@ std::string Buffers::Texture::type()
 std::string Buffers::Texture::path()
 {
 	return Path;
-}
-
-Buffers::EBO::EBO() : Buffers::Buffer(GL_ELEMENT_ARRAY_BUFFER) { }
-
-void Buffers::EBO::Draw(GLuint elements, GLenum mode)
-{
-	glDrawElements(mode, elements, GL_UNSIGNED_INT, 0);
 }

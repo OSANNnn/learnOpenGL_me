@@ -75,60 +75,60 @@ int main()
 		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
 		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 	};
-
+	
 	float cubeVertices[] = {
-	//   positions            texture Coords
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		// back face
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
+		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom-right
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
+		-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, // top-left
+		// front face
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
+		 0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom-right
+		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
+		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
+		-0.5f,  0.5f, 0.5f, 0.0f, 1.0f, // top-left
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
+		// left face
+		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
+		-0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-left
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
+		-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
+		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
+		// right face
+		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
+		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
+		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
+		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
+		 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-left
+		// bottom face
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
+		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f, // top-left
+		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
+		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
+		-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
+		// top face
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
+		 0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
+		 0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-right
+		 0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
+		-0.5f, 0.5f,  0.5f, 0.0f, 0.0f // bottom-left
 	};
 	float planeVertices[] = {
 	//   positions            texture Coords
+		 5.0f, -0.5f, -5.0f,  2.0f, 2.0f,
 		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-		-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
 		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
 
-		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
 		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-		 5.0f, -0.5f, -5.0f,  2.0f, 2.0f
+		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+		-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
 	};
 
 	vec2 translations[100];
@@ -151,8 +151,8 @@ int main()
 	vegetationVao.Bind();
 	quad.Bind();
 	quad.Data(quadVertices, sizeof(quadVertices));
-	vegetationVao.SetAttrib(0, 3, 5 * sizeof(float), 0);
-	vegetationVao.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	vegetationVao.SetAttrib(0, 3, 5, 0);
+	vegetationVao.SetAttrib(1, 2, 5, 3);
 	vegetationVao.setVertexCount(6);
 	vegetationVao.UnBind();
 	quad.UnBind();
@@ -174,14 +174,17 @@ int main()
 	cubeVAO.Bind();
 	cubeVBO.Bind();
 	cubeVBO.Data(cubeVertices, sizeof(cubeVertices));
-	cubeVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
-	cubeVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	cubeVAO.SetAttrib(0, 3, 5, 0);
+	cubeVAO.SetAttrib(1, 2, 5, 3);
 	cubeVAO.setVertexCount(36);
+	cubeVAO.UnBind();
+	cubeVBO.UnBind();
+
 	planeVAO.Bind();
 	planeVBO.Bind();
 	planeVBO.Data(planeVertices, sizeof(planeVertices));
-	planeVAO.SetAttrib(0, 3, 5 * sizeof(float), 0);
-	planeVAO.SetAttrib(1, 2, 5 * sizeof(float), 3 * sizeof(float));
+	planeVAO.SetAttrib(0, 3, 5, 0);
+	planeVAO.SetAttrib(1, 2, 5, 3);
 	planeVAO.setVertexCount(6);
 	planeVBO.UnBind();
 	planeVAO.UnBind();
@@ -194,7 +197,6 @@ int main()
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
-	Shader coloredOutline("texturePreview.vert", "singleColor.frag");
 
 	DirectionalLight sunLight;
 	sunLight.direction = vec3(0.0, -1.0f, 1.0);
@@ -212,9 +214,6 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	//glEnable(GL_STENCIL_TEST);
-	//glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -232,42 +231,37 @@ int main()
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
 
-		/*coloredOutline.Use();
-		coloredOutline.setMat4f("view", view);
-		coloredOutline.setMat4f("projection", projection);*/
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
 
-		//glStencilMask(0x00);
 		planeVAO.Bind();
 		metal.Activate(0);
 		model = mat4(1.0f);
 		plainTextures.setMat4f("model", model);
 		planeVAO.Draw();
+		planeVAO.UnBind();
 
-		//glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		//glStencilMask(0xFF);
 		cubeVAO.Bind();
 		marble.Activate(0);
 		model = mat4(1.0f);
-		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
+		model = translate(model, vec3(-1.0f, 0.001f, -1.0f));
 		plainTextures.setMat4f("model", model);
 		cubeVAO.Draw();
 		model = mat4(1.0f);
-		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
+		model = translate(model, vec3(2.0f, 0.001f, 0.0f));
 		plainTextures.setMat4f("model", model);
 		cubeVAO.Draw();
+		cubeVAO.UnBind();
 
+		vegetationVao.Bind();
+		plant.Activate(0);
 		map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
 		{
 			float distance = glm::length(camera.position() - vegetation[i]);
 			sorted[distance] = vegetation[i];
 		}
-
-		vegetationVao.Bind();
-		plant.Activate(0);
 		for (map<float, vec3>::reverse_iterator it = sorted.rbegin(); it !=
 			sorted.rend(); ++it)
 		{
@@ -276,27 +270,7 @@ int main()
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
 		}
-
-		/*glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-		glStencilMask(0x00);
-		glDisable(GL_DEPTH_TEST);
-		coloredOutline.Use();
-		cubeVAO.Bind();
-		marble.Activate(0);
-		model = mat4(1.0f);
-		model = translate(model, vec3(-1.0f, 0.0f, -1.0f));
-		model = scale(model, vec3(scaleFactor));
-		coloredOutline.setMat4f("model", model);
-		cubeVAO.Draw();
-		model = mat4(1.0f);
-		model = translate(model, vec3(2.0f, 0.0f, 0.0f));
-		model = scale(model, vec3(scaleFactor));
-		coloredOutline.setMat4f("model", model);
-		cubeVAO.Draw();
-		cubeVAO.UnBind();
-		glStencilMask(0xFF);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glEnable(GL_DEPTH_TEST);*/
+		vegetationVao.UnBind();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -308,6 +282,7 @@ int main()
 	planeVAO.Delete();
 	cubeVBO.Delete();
 	planeVBO.Delete();
+	quad.Delete();
 	plainTextures.Delete();
 	marble.Delete();
 	metal.Delete();

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="buffers.cpp" />
+    <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,9 +152,12 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="VAO.cpp" />
+    <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
+    <ClInclude Include="EBO.h" />
     <ClInclude Include="filesystem.hpp" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lights.hpp" />
@@ -164,6 +168,8 @@
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="utils.hpp" />
     <ClInclude Include="buffers.hpp" />
+    <ClInclude Include="VAO.h" />
+    <ClInclude Include="VBO.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="normals.frag" />

@@ -5,6 +5,9 @@
 #include <string>
 #include <glad/glad.h>
 #include <glfw3.h>
+#include "VAO.h"
+#include "VBO.h"
+#include "EBO.h"
 
 
 namespace Buffers
@@ -26,46 +29,6 @@ namespace Buffers
 		virtual void Delete();
 	
 	};
-
-
-
-	class VAO : public Buffer
-	{
-	private:
-		GLuint vertexCount;
-	public:
-		VAO();
-		void setVertexCount(GLuint count);
-		void EnableAttrib(GLint attribute);
-		void SetAttrib(GLuint index, GLint size, GLsizei stride, int offset, GLboolean normalize = GL_FALSE);
-		void Draw(GLenum mode = GL_TRIANGLES);
-		void DisableAtrrib(GLint attribute);
-	};
-
-
-
-	class VBO : public Buffer
-	{
-	private:
-		GLuint vertexCount;
-	public:
-		VBO();
-		void setVertexCount(GLuint count);
-		GLuint VertexCount();
-	};
-
-
-
-	class EBO : public Buffer
-	{
-	private:
-		GLuint inidicesNr;
-	public:
-		EBO();
-		void Draw(GLuint elements, GLenum mode = GL_TRIANGLES);
-	};
-
-
 
 	class Texture : public Buffer
 	{

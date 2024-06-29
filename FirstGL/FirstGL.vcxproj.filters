@@ -37,6 +37,12 @@
     <Filter Include="Header Files\io">
       <UniqueIdentifier>{075f39cb-0974-429e-9cc7-04b59fd07bdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graphics\buffers">
+      <UniqueIdentifier>{b04e706a-0ecc-4706-b462-d0862c9d7b2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\buffers">
+      <UniqueIdentifier>{9d50b9c2-cab2-4d35-8dc4-e5619e07bd8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="buffers.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Source Files\dep</Filter>
@@ -56,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="screen.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="screen.hpp">
       <Filter>Header Files\graphics</Filter>
@@ -70,18 +70,30 @@
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="model.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="screen.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="buffers.cpp">
+      <Filter>Source Files\graphics\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Source Files\graphics\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Source Files\graphics\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="EBO.cpp">
+      <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="buffers.hpp">
-      <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="camera.hpp">
       <Filter>Header Files\graphics</Filter>
@@ -98,17 +110,29 @@
     <ClInclude Include="mouse.h">
       <Filter>Header Files\io</Filter>
     </ClInclude>
-    <ClInclude Include="lights.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="filesystem.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lights.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VAO.h">
+      <Filter>Header Files\graphics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="buffers.hpp">
+      <Filter>Header Files\graphics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VBO.h">
+      <Filter>Header Files\graphics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="EBO.h">
+      <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

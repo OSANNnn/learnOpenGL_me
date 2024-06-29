@@ -34,12 +34,14 @@ void Model::loadModel(std::string path)
 
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
+	std::cout << "MeshesNr: " << node->mNumMeshes << std::endl;
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
-	{
+	{	
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		Meshes.push_back(processMesh(mesh, scene));
 	}
 
+	std::cout << "ChildNr: " << node->mNumChildren << std::endl;
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		std::cout << "Processing meshes:" << i << std::endl;
@@ -130,7 +132,7 @@ std::vector<Buffers::Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTex
 		
 		if (!skip)
 		{
-			std::cout << "Loading textures: " << typeName << " \"" << str.C_Str() << "\"" << std::endl;
+			std::cout << "Loading textures: " << typeName << " \"" << Directory << "/" << str.C_Str() << "\"" << std::endl;
 			Buffers::Texture texture(typeName);
 			texture.TexData(str.C_Str(), Directory);
 			texture.setPath(str.C_Str());
