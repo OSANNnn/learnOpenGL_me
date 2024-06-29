@@ -43,12 +43,12 @@
     <Filter Include="Source Files\graphics\buffers">
       <UniqueIdentifier>{9d50b9c2-cab2-4d35-8dc4-e5619e07bd8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graphics\Primitives">
+      <UniqueIdentifier>{a1877c2c-c73c-4d88-b95f-a38cf9da8d68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
@@ -78,9 +78,6 @@
     <ClCompile Include="screen.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="buffers.cpp">
-      <Filter>Source Files\graphics\buffers</Filter>
-    </ClCompile>
     <ClCompile Include="VAO.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
@@ -93,11 +90,14 @@
     <ClCompile Include="texture.cpp">
       <Filter>Source Files\graphics\buffers</Filter>
     </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="primitives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="camera.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
@@ -139,6 +139,15 @@
     </ClInclude>
     <ClInclude Include="texture.h">
       <Filter>Header Files\graphics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="io.h">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

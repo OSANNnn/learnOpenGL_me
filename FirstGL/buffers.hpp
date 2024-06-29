@@ -5,5 +5,3 @@
 #include "EBO.h"
 #include "texture.h"
 #endif // !BUFFERS_H
-
-

@@ -2,8 +2,7 @@
 
 #include <glfw3.h>
 #include "camera.hpp"
-#include "keyboard.h"
-#include "mouse.h"
+#include "io.h"
 
 //callback to resize the window to the original size
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

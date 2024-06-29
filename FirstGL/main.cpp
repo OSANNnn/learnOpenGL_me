@@ -6,14 +6,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "camera.hpp"
-#include "utils.hpp"
+#include "io.h"
 #include "Shader.hpp"
 #include "buffers.hpp"
 #include "materials.hpp"
 #include "lights.hpp"
-#include "keyboard.h"
-#include "mouse.h"
 #include "model.h"
 
 
