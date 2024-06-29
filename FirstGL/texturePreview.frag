@@ -1,27 +1,56 @@
 #version 330 core
 
-in vec4 Pos;
-in vec2 TexCoord;
+in vec3 FragPos;
+in vec3 Normal;
+in vec2 TexCoords;
 
 out vec4 FragColor;
 
-uniform sampler2D texture1;
+struct Material {
+	sampler2D texture_diffuse1;
+	sampler2D texture_diffuse2;
+	sampler2D texture_diffuse3;
+	sampler2D texture_specular1;
+	sampler2D texture_specular2;
+	sampler2D texture_specular3;
+	sampler2D texture_normals1;
+	sampler2D texture_emission;
+	float shininess;
+	float emissionIntensity;
+};
 
-float near = 0.1f;
-float far = 100.f;
+struct DirectionalLight {
+	vec3 direction;
 
-float linearizeDepth(float depth);
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+};
+
+uniform DirectionalLight directionalLight;
+uniform Material material;
+uniform vec3 viewPos;
+
+vec4 calcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
 
 void main()
 {
-//    float Depth = linearizeDepth(gl_FragCoord.z) / far;
-//    FragColor = vec4(vec3(Depth), 1.0f);
-    vec4 finalColor = texture(texture1, TexCoord);
+	vec3 norm = normalize(Normal);
+	vec3 viewDir = normalize(viewPos - FragPos);
+    vec4 finalColor = calcDirectionalLight(directionalLight, norm, viewDir);
     FragColor = finalColor;
 }
 
-float linearizeDepth(float depth)
+
+vec4 calcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 {
-    float z = depth * 2.0f - 1.0f;
-    return (2.0f * near * far) / (far + near - z * (far - near));
+	vec3 lightDir = normalize(-light.direction);
+
+	float diff = max(dot(normal, lightDir), 0.0f);
+
+
+	vec4 ambient = vec4(light.ambient, 1.0f) * texture(material.texture_diffuse1, TexCoords);
+	vec4 diffuse = vec4(light.diffuse, 1.0f) * diff * texture(material.texture_diffuse1, TexCoords);
+
+	return (ambient + diffuse);
 }

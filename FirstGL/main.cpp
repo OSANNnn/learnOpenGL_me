@@ -73,61 +73,7 @@ int main()
 		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
 		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 	};
-	
-	float cubeVertices[] = {
-		// back face
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
-		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom-right
-		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
-		-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, // top-left
-		// front face
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
-		 0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom-right
-		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
-		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
-		-0.5f,  0.5f, 0.5f, 0.0f, 1.0f, // top-left
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
-		// left face
-		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
-		-0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-left
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
-		-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
-		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
-		// right face
-		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
-		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
-		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
-		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
-		 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-left
-		// bottom face
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f, // top-left
-		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
-		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
-		-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-		// top face
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-		 0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
-		 0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-right
-		 0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-		-0.5f, 0.5f,  0.5f, 0.0f, 0.0f // bottom-left
-	};
-	float planeVertices[] = {
-	//   positions            texture Coords
-		 5.0f, -0.5f, -5.0f,  2.0f, 2.0f,
-		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
 
-		-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-		 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-		-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
-	};
 
 	vec2 translations[100];
 
@@ -150,7 +96,7 @@ int main()
 	quad.Bind();
 	quad.Data(quadVertices, sizeof(quadVertices));
 	vegetationVao.SetAttrib(0, 3, 5, 0);
-	vegetationVao.SetAttrib(1, 2, 5, 3);
+	vegetationVao.SetAttrib(2, 2, 5, 3);
 	vegetationVao.setVertexCount(6);
 	vegetationVao.UnBind();
 	quad.UnBind();
@@ -166,26 +112,9 @@ int main()
 	vegetation.push_back(vec3(-0.3f, 0.0f, -2.3f));
 	vegetation.push_back(vec3(0.5f, 0.0f, -0.6f));
 
-	VBO planeVBO;
-	VAO planeVAO;
 	Primitives::Cube cube;
-	/*cubeVAO.Bind();
-	cubeVBO.Bind();
-	cubeVBO.Data(cubeVertices, sizeof(cubeVertices));
-	cubeVAO.SetAttrib(0, 3, 5, 0);
-	cubeVAO.SetAttrib(1, 2, 5, 3);
-	cubeVAO.setVertexCount(36);
-	cubeVAO.UnBind();
-	cubeVBO.UnBind();*/
+	Primitives::Plane plane;
 
-	planeVAO.Bind();
-	planeVBO.Bind();
-	planeVBO.Data(planeVertices, sizeof(planeVertices));
-	planeVAO.SetAttrib(0, 3, 5, 0);
-	planeVAO.SetAttrib(1, 2, 5, 3);
-	planeVAO.setVertexCount(6);
-	planeVBO.UnBind();
-	planeVAO.UnBind();
 
 	Texture marble; //cube
 	marble.TexData("../assets/textures/marble.jpg");
@@ -197,10 +126,10 @@ int main()
 	plainTextures.SetInt("texture1", 0);
 
 	DirectionalLight sunLight;
-	sunLight.direction = vec3(0.0, -1.0f, 1.0);
-	sunLight.ambient = vec3(0.3f);
-	sunLight.diffuse = vec3(0.9, 0.9, 0.7);
-	sunLight.specular = vec3(0.9, 0.9, 0.7);
+	sunLight.direction = vec3(-2.0, -1.0f, 1.0);
+	sunLight.ambient = vec3(0.1f);
+	sunLight.diffuse = vec3(1.0, 1.0, 0.8);
+	sunLight.specular = vec3(1.0, 1.0, 0.8);
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -232,11 +161,14 @@ int main()
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
+		plainTextures.SetInt("material.texture_diffuse1", 0);
+		plainTextures.setDirectionalLight("directionalLight", sunLight);
+		plainTextures.setVec3("viewPos", camera.position());
 
 		metal.Activate(0);
 		model = mat4(1.0f);
 		plainTextures.setMat4f("model", model);
-		planeVAO.Draw();
+		plane.Draw();
 
 		marble.Activate(0);
 		model = mat4(1.0f);
@@ -270,8 +202,6 @@ int main()
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
-	planeVAO.Delete();
-	planeVBO.Delete();
 	quad.Delete();
 	plainTextures.Delete();
 	marble.Delete();

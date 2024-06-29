@@ -7,64 +7,65 @@ namespace Primitives
 	class Cube
 	{
 	private:
-		float cubeVertices[36*5] = {
-			// back face
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
-			 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-			 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom-right
-			 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
-			-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, // top-left
-			// front face
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
-			 0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom-right
-			 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
-			 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, // top-right
-			-0.5f,  0.5f, 0.5f, 0.0f, 1.0f, // top-left
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom-left
-			// left face
-			-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
-			-0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-left
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-left
-			-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
-			-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-right
-			// right face
-			 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
-			 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
-			 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, // top-right
-			 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bottom-right
-			 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, // top-left
-			 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-left
-			 // bottom face
-			 -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-			  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, // top-left
-			  0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
-			  0.5f, -0.5f,  0.5f, 1.0f, 0.0f, // bottom-left
-			 -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, // bottom-right
-			 -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-			 // top face
-			 -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-			  0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
-			  0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-right
-			  0.5f, 0.5f,  0.5f, 1.0f, 0.0f, // bottom-right
-			 -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-			 -0.5f, 0.5f,  0.5f, 0.0f, 0.0f, // bottom-left
+		float cubeVertices[36*8] = {
+		//backface pos             normals			     TexCoords
+			-0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f, // bottom-left
+			 0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f, // top-right
+			 0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 0.0f, // bottom-right
+			 0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   1.0f, 1.0f, // top-right
+			-0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 0.0f, // bottom-left
+			-0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,   0.0f, 1.0f, // top-left
+		// front face									 
+			-0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f, // bottom-left
+			 0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 0.0f, // bottom-right
+			 0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f, // top-right
+			 0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f, // top-right
+			-0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 1.0f, // top-left
+			-0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f, // bottom-left
+		// left face									 
+			-0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // top-right
+			-0.5f,  0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,   1.0f, 1.0f, // top-left
+			-0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // bottom-left
+			-0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // bottom-left
+			-0.5f, -0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, // bottom-right
+			-0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // top-right
+		// right face									 
+			 0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // top-left
+			 0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // bottom-right
+			 0.5f,  0.5f, -0.5f,   1.0f,  0.0f,  0.0f,   1.0f, 1.0f, // top-right
+			 0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,   0.0f, 1.0f, // bottom-right
+			 0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,   1.0f, 0.0f, // top-left
+			 0.5f, -0.5f,  0.5f,   1.0f,  0.0f,  0.0f,   0.0f, 0.0f, // bottom-left
+		// bottom face									 
+			-0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,   0.0f, 1.0f, // top-right
+			 0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,   1.0f, 1.0f, // top-left
+			 0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,   1.0f, 0.0f, // bottom-left
+			 0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,   1.0f, 0.0f, // bottom-left
+			-0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,   0.0f, 0.0f, // bottom-right
+			-0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,   0.0f, 1.0f, // top-right
+		// top face
+			-0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,   0.0f, 1.0f, // top-left
+			 0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,   1.0f, 0.0f, // bottom-right
+			 0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,   1.0f, 1.0f, // top-right
+			 0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,   1.0f, 0.0f, // bottom-right
+			-0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,   0.0f, 1.0f, // top-left
+			-0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,   0.0f, 0.0f, // bottom-left
 		};
 		const int verticesNr = 36;
-		Buffers::VBO cubeVBO;
-		Buffers::VAO cubeVAO;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
 
 		void init()
 		{
-			cubeVAO.Bind();
-			cubeVBO.Bind();
-			cubeVBO.Data(cubeVertices, sizeof(cubeVertices));
-			cubeVAO.SetAttrib(0, 3, 5, 0);
-			cubeVAO.SetAttrib(1, 2, 5, 3);
-			cubeVAO.setVertexCount(verticesNr);
-			cubeVAO.UnBind();
-			cubeVBO.UnBind();
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(cubeVertices, sizeof(cubeVertices));
+			VAO.SetAttrib(0, 3, 8, 0);
+			VAO.SetAttrib(1, 3, 8, 3);
+			VAO.SetAttrib(2, 2, 8, 6);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
 		}
 
 	public:
@@ -74,12 +75,12 @@ namespace Primitives
 		};
 		void Draw()
 		{
-			cubeVAO.Draw();
+			VAO.Draw();
 		}
 		~Cube()
 		{
-			cubeVAO.Delete();
-			cubeVBO.Delete();
+			VAO.Delete();
+			VBO.Delete();
 		}
 	};
 
@@ -94,7 +95,48 @@ namespace Primitives
 
 	class Plane
 	{
+	private:
+		float vertices[8*6] = {
+		//   positions			  normals				texCoords
+			 5.0f, -0.5f, -5.0f,  0.0f,  1.0f,  0.0f,   2.0f, 2.0f,
+			 5.0f, -0.5f,  5.0f,  0.0f,  1.0f,  0.0f,   2.0f, 0.0f,
+			-5.0f, -0.5f, -5.0f,  0.0f,  1.0f,  0.0f,   0.0f, 2.0f,
 
+			-5.0f, -0.5f, -5.0f,  0.0f,  1.0f,  0.0f,   0.0f, 2.0f,
+			 5.0f, -0.5f,  5.0f,  0.0f,  1.0f,  0.0f,   2.0f, 0.0f,
+			-5.0f, -0.5f,  5.0f,  0.0f,  1.0f,  0.0f,   0.0f, 0.0f,
+		};
+		const int verticesNr = 6;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
+
+		void init()
+		{
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(vertices, sizeof(vertices));
+			VAO.SetAttrib(0, 3, 8, 0);
+			VAO.SetAttrib(1, 3, 8, 3);
+			VAO.SetAttrib(2, 2, 8, 6);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
+		}
+
+	public:
+		Plane()
+		{
+			init();
+		};
+		void Draw()
+		{
+			VAO.Draw();
+		}
+		~Plane()
+		{
+			VAO.Delete();
+			VBO.Delete();
+		}
 	};
 }
 
