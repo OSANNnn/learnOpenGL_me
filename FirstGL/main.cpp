@@ -12,6 +12,7 @@
 #include "materials.hpp"
 #include "lights.hpp"
 #include "model.h"
+#include "primitives.h"
 
 
 using namespace std;
@@ -165,17 +166,17 @@ int main()
 	vegetation.push_back(vec3(-0.3f, 0.0f, -2.3f));
 	vegetation.push_back(vec3(0.5f, 0.0f, -0.6f));
 
-	VBO cubeVBO, planeVBO;
-	VAO cubeVAO, planeVAO;
-
-	cubeVAO.Bind();
+	VBO planeVBO;
+	VAO planeVAO;
+	Primitives::Cube cube;
+	/*cubeVAO.Bind();
 	cubeVBO.Bind();
 	cubeVBO.Data(cubeVertices, sizeof(cubeVertices));
 	cubeVAO.SetAttrib(0, 3, 5, 0);
 	cubeVAO.SetAttrib(1, 2, 5, 3);
 	cubeVAO.setVertexCount(36);
 	cubeVAO.UnBind();
-	cubeVBO.UnBind();
+	cubeVBO.UnBind();*/
 
 	planeVAO.Bind();
 	planeVBO.Bind();
@@ -241,11 +242,11 @@ int main()
 		model = mat4(1.0f);
 		model = translate(model, vec3(-1.0f, 0.001f, -1.0f));
 		plainTextures.setMat4f("model", model);
-		cubeVAO.Draw();
+		cube.Draw();
 		model = mat4(1.0f);
 		model = translate(model, vec3(2.0f, 0.001f, 0.0f));
 		plainTextures.setMat4f("model", model);
-		cubeVAO.Draw();
+		cube.Draw();
 
 		plant.Activate(0);
 		map<float, glm::vec3> sorted;
@@ -269,9 +270,7 @@ int main()
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
-	cubeVAO.Delete();
 	planeVAO.Delete();
-	cubeVBO.Delete();
 	planeVBO.Delete();
 	quad.Delete();
 	plainTextures.Delete();
