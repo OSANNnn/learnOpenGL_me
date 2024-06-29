@@ -50,4 +50,5 @@ void Buffers::EBO::Draw(GLenum mode)
 	if (!IsBound)
 		Bind();
 	glDrawElements(mode, Elements, GL_UNSIGNED_INT, 0);
+	UnBind();
 }

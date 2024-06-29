@@ -235,14 +235,11 @@ int main()
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
 
-		planeVAO.Bind();
 		metal.Activate(0);
 		model = mat4(1.0f);
 		plainTextures.setMat4f("model", model);
 		planeVAO.Draw();
-		planeVAO.UnBind();
 
-		cubeVAO.Bind();
 		marble.Activate(0);
 		model = mat4(1.0f);
 		model = translate(model, vec3(-1.0f, 0.001f, -1.0f));
@@ -252,9 +249,7 @@ int main()
 		model = translate(model, vec3(2.0f, 0.001f, 0.0f));
 		plainTextures.setMat4f("model", model);
 		cubeVAO.Draw();
-		cubeVAO.UnBind();
 
-		vegetationVao.Bind();
 		plant.Activate(0);
 		map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
@@ -270,7 +265,6 @@ int main()
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
 		}
-		vegetationVao.UnBind();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

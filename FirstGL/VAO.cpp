@@ -62,4 +62,5 @@ void Buffers::VAO::Draw(GLenum mode)
 {
 	checkBinding();
 	glDrawArrays(mode, 0, VertexCount);
+	UnBind();
 }
