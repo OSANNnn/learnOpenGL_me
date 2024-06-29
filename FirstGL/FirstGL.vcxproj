@@ -151,6 +151,7 @@
     <ClCompile Include="screen.hpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="texture.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="utils.hpp" />
     <ClInclude Include="buffers.hpp" />
     <ClInclude Include="VAO.h" />
