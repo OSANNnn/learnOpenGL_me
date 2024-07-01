@@ -115,6 +115,7 @@ int main()
 	Primitives::Cube cube;
 	Primitives::Plane plane;
 
+	Model backpack("../assets/backpack/backpack.obj");
 
 	Texture marble; //cube
 	marble.TexData("../assets/textures/marble.jpg");
@@ -126,10 +127,10 @@ int main()
 	plainTextures.SetInt("texture1", 0);
 
 	DirectionalLight sunLight;
-	sunLight.direction = vec3(-2.0, -1.0f, 1.0);
+	sunLight.direction = vec3(-1.0, -1.0f, 1.0);
 	sunLight.ambient = vec3(0.1f);
-	sunLight.diffuse = vec3(1.0, 1.0, 0.8);
-	sunLight.specular = vec3(1.0, 1.0, 0.8);
+	sunLight.diffuse = vec3(0.8, 1.0, 1.0);
+	sunLight.specular = vec3(0.8, 1.0, 1.0);
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);

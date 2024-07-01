@@ -20,7 +20,8 @@ void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
-
+	
+	std::cout << "Loading model: \"" << path << "\"" << std::endl;
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
@@ -132,7 +133,7 @@ std::vector<Buffers::Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTex
 		
 		if (!skip)
 		{
-			std::cout << "Loading textures: " << typeName << " \"" << Directory << "/" << str.C_Str() << "\"" << std::endl;
+			std::cout << "Texture found for model: " << typeName << " \"" << Directory << "/" << str.C_Str() << "\"" << std::endl;
 			Buffers::Texture texture(typeName);
 			texture.TexData(str.C_Str(), Directory);
 			texture.setPath(str.C_Str());

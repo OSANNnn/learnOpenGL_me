@@ -92,6 +92,7 @@ void Buffers::Texture::TexData(const char* path, const std::string& directory, b
 		filename = directory + '/' + filename;
 
 	int width, height, nrChannels;
+	std::cout << "Loading texture data: \"" << filename << '"';
 	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
 
 
@@ -136,15 +137,14 @@ void Buffers::Texture::TexData(const char* path, const std::string& directory, b
 
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-
 		Width = width;
 		Height = height;
 		Channels = nrChannels;
+	std::cout << "... LOADED!" << std::endl;
 	}
 	else
 	{
 		std::cout << "Failed to load texture: \"" << filename << "\"" << std::endl;
 	}
-
 	stbi_image_free(data);
 }
