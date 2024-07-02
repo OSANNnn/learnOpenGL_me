@@ -115,8 +115,6 @@ int main()
 	Primitives::Cube cube;
 	Primitives::Plane plane;
 
-	Model backpack("../assets/backpack/backpack.obj");
-
 	Texture marble; //cube
 	marble.TexData("../assets/textures/marble.jpg");
 	Texture metal; //floor
