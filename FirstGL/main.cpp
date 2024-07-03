@@ -7,12 +7,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "io.h"
-#include "Shader.hpp"
 #include "buffers.hpp"
+#include "FBO.hpp"
+#include "Shader.hpp"
+#include "primitives.hpp"
 #include "materials.hpp"
 #include "lights.hpp"
-#include "model.h"
-#include "primitives.h"
+#include "model.hpp"
 
 
 using namespace std;
@@ -89,6 +90,8 @@ int main()
 		}
 	}
 
+	//FBO colorFrameBuffer(width, height);
+
 	VBO quad;
 	VAO vegetationVao;
 
@@ -124,6 +127,8 @@ int main()
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
 
+	Shader frameBufferShader("frameBuffer.vert", "frameBuffer.frag");
+
 	DirectionalLight sunLight;
 	sunLight.direction = vec3(-1.0, -1.0f, 1.0);
 	sunLight.ambient = vec3(0.1f);
@@ -151,7 +156,7 @@ int main()
 		lastFrame = currentFrame;
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		processInput(window, camera);
 		
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
@@ -203,6 +208,7 @@ int main()
 	//delete everything
 	quad.Delete();
 	plainTextures.Delete();
+	frameBufferShader.Delete();
 	marble.Delete();
 	metal.Delete();
 
