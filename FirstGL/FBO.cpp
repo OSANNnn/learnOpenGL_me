@@ -18,7 +18,7 @@ FBO::FBO()
 
 FBO::FBO(const unsigned int width, const unsigned int height)
 {
-    glGenBuffers(1, &ID);
+    glGenFramebuffers(1, &ID);
     Bind();
     CreateColorBuffer(width, height);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -57,10 +57,22 @@ void FBO::CreateColorBuffer(const unsigned int width, const unsigned int height)
     glGenTextures(1, &TexID);
     glBindTexture(GL_TEXTURE_2D, TexID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TexID, 0);
     AttachRBO(width, height);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+
+void FBO::Render(Shader& shaderProgram)
+{
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    shaderProgram.Use();
+    glBindTexture(GL_TEXTURE_2D, TexID);
+    frame.Draw();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}

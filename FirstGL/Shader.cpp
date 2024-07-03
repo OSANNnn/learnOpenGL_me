@@ -55,6 +55,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED: "<< vertexPath << std::endl <<
 			infoLog << std::endl;
+		std::cout << "FILE: " << vertexPath << std::endl;
 	};
 	// similiar for Fragment Shader
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -66,6 +67,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED: " << fragmentPath << std::endl << 
 			infoLog << std::endl;
+		std::cout << "FILE: " << fragmentPath << std::endl;
 	}
 
 	//link program
@@ -80,6 +82,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		glGetProgramInfoLog(ID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" <<
 			infoLog << std::endl;
+		std::cout << "FILES: " << vertexPath << " " << fragmentPath << std::endl;
 	}
 	else
 	{

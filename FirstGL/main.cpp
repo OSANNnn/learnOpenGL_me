@@ -21,8 +21,8 @@ using namespace Buffers;
 using namespace glm;
 
 //canvas size
-const unsigned int width = 800;
-const unsigned int height = 600;
+unsigned int width = 800;
+unsigned int height = 600;
 
 Fly_Camera camera(vec3(0.0f, 0.0f, 3.0f));
 
@@ -90,7 +90,7 @@ int main()
 		}
 	}
 
-	//FBO colorFrameBuffer(width, height);
+	FBO colorFrameBuffer(width, height);
 
 	VBO quad;
 	VAO vegetationVao;
@@ -128,12 +128,15 @@ int main()
 	plainTextures.SetInt("texture1", 0);
 
 	Shader frameBufferShader("frameBuffer.vert", "frameBuffer.frag");
+	frameBufferShader.Use();
+	frameBufferShader.SetInt("bufferTex", 0);
 
 	DirectionalLight sunLight;
+	vec3 lightCol(1.0, 1.0, 0.8);
 	sunLight.direction = vec3(-1.0, -1.0f, 1.0);
-	sunLight.ambient = vec3(0.1f);
-	sunLight.diffuse = vec3(0.8, 1.0, 1.0);
-	sunLight.specular = vec3(0.8, 1.0, 1.0);
+	sunLight.ambient = vec3(0.5f);
+	sunLight.diffuse = lightCol;
+	sunLight.specular = lightCol;
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -155,13 +158,17 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		processInput(window, camera);
 		
+		colorFrameBuffer.Bind();
+		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
-
+		
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
@@ -199,6 +206,9 @@ int main()
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
 		}
+		colorFrameBuffer.UnBind();
+
+		colorFrameBuffer.Render(frameBufferShader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
