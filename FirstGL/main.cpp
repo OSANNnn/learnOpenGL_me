@@ -166,9 +166,11 @@ int main()
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 
-		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
+		projection = perspective(radians(camera.fov() - 20), aspect, 0.1f, 100.0f);
+		camera.rearMirror(true);
 		view = camera.getViewMatrix();
-		
+		camera.rearMirror(false);
+
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
 		plainTextures.setMat4f("projection", projection);
@@ -208,6 +210,54 @@ int main()
 		}
 		colorFrameBuffer.UnBind();
 
+
+		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+
+		view = camera.getViewMatrix();
+		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
+
+		plainTextures.Use();
+		plainTextures.setMat4f("view", view);
+		plainTextures.setMat4f("projection", projection);
+		plainTextures.SetInt("material.texture_diffuse1", 0);
+		plainTextures.setDirectionalLight("directionalLight", sunLight);
+		plainTextures.setVec3("viewPos", camera.position());
+
+		metal.Activate(0);
+		model = mat4(1.0f);
+		plainTextures.setMat4f("model", model);
+		plane.Draw();
+
+		marble.Activate(0);
+		model = mat4(1.0f);
+		model = translate(model, vec3(-1.0f, 0.001f, -1.0f));
+		plainTextures.setMat4f("model", model);
+		cube.Draw();
+		model = mat4(1.0f);
+		model = translate(model, vec3(2.0f, 0.001f, 0.0f));
+		plainTextures.setMat4f("model", model);
+		cube.Draw();
+
+		plant.Activate(0);
+		for (map<float, vec3>::reverse_iterator it = sorted.rbegin(); it !=
+			sorted.rend(); ++it)
+		{
+			model = mat4(1.0f);
+			model = translate(model, it->second);
+			plainTextures.setMat4f("model", model);
+			vegetationVao.Draw();
+		}
+
+
+		frameBufferShader.Use();
+		model = mat4(1.0f);
+		model = translate(model, vec3(0.0f, 0.8, 0.0f));
+		model = scale(model, vec3(0.5, 0.2, 1.0));
+		frameBufferShader.setMat4f("model", model);
+		frameBufferShader.setMat4f("view", view);
 		colorFrameBuffer.Render(frameBufferShader);
 
 		glfwSwapBuffers(window);
