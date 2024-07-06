@@ -162,6 +162,45 @@ namespace Primitives
 
 	class Quad
 	{
+	private:
+		float vertices[6*5] = {
+		-0.5f,  0.5f,  0.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f, -0.5f,  0.0f,  1.0f,  1.0f,
+
+		-0.5f,  0.5f,  0.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.0f,  1.0f,  1.0f,
+		 0.5f,  0.5f,  0.0f,  1.0f,  0.0f
+		};
+		const int verticesNr = 6;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
+
+		void init()
+		{
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(vertices, sizeof(vertices));
+			VAO.SetAttrib(0, 3, 5, 0);
+			VAO.SetAttrib(2, 2, 5, 3);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
+		}
+	public:
+		Quad()
+		{
+			init();
+		};
+		void Draw()
+		{
+			VAO.Draw();
+		}
+		~Quad()
+		{
+			VAO.Delete();
+			VBO.Delete();
+		}
 	};
 
 	class Triangle

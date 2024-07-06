@@ -15,7 +15,6 @@
 #include "lights.hpp"
 #include "model.hpp"
 
-
 using namespace std;
 using namespace Buffers;
 using namespace glm;
@@ -32,7 +31,6 @@ float lastFrame = 0.0f;
 float mouseLastX = 400;
 float mouseLastY = 300;
 bool firstMouse = true;
-
 
 int main()
 {
@@ -65,16 +63,6 @@ int main()
 	
 	stbi_set_flip_vertically_on_load(false);
 
-	float quadVertices[] = {
-		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-		0.0f, -0.5f,  0.0f,  0.0f,  1.0f,
-		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
-
-		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
-		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
-	};
-
 	vector<std::string> faces {
 		"../assets/textures/skybox/right.jpg",
 		"../assets/textures/skybox/left.jpg",
@@ -84,53 +72,36 @@ int main()
 		"../assets/textures/skybox/back.jpg"
 	};
 
-	CubeMap skyboxTex(faces);
-	Primitives::SkyBox skyboxCube;
-	Shader skyboxShader("skybox.vert", "skybox.frag");
-	skyboxShader.Use();
-	skyboxShader.SetInt("skybox", 0);
-
-	VBO quad;
-	VAO vegetationVao;
-
-	vegetationVao.Bind();
-	quad.Bind();
-	quad.Data(quadVertices, sizeof(quadVertices));
-	vegetationVao.SetAttrib(0, 3, 5, 0);
-	vegetationVao.SetAttrib(2, 2, 5, 3);
-	vegetationVao.setVertexCount(6);
-	vegetationVao.UnBind();
-	quad.UnBind();
-
-	Texture plant;
-	plant.TexData("../assets/textures/grass.png");
-	plant.setClamp();
-
 	vector<vec3> vegetation;
-	vegetation.push_back(vec3(-1.5f, 0.0f, -0.48f));
-	vegetation.push_back(vec3(1.5f, 0.0f, 0.51f));
-	vegetation.push_back(vec3(0.0f, 0.0f, 0.7f));
-	vegetation.push_back(vec3(-0.3f, 0.0f, -2.3f));
-	vegetation.push_back(vec3(0.5f, 0.0f, -0.6f));
+	vegetation.push_back(vec3(-1.0f, 0.0f, -0.48f));
+	vegetation.push_back(vec3(2.0f, 0.0f, 0.51f));
+	vegetation.push_back(vec3(0.5f, 0.0f, 0.7f));
+	vegetation.push_back(vec3(0.2f, 0.0f, -2.3f));
+	vegetation.push_back(vec3(1.0f, 0.0f, -0.6f));
 
+	Primitives::SkyBox skyboxCube;
 	Primitives::Cube cube;
 	Primitives::Plane plane;
+	Primitives::Quad vegetationQuad;
 
+	CubeMap skyboxTex(faces);
 	Texture marble; //cube
 	marble.TexData("../assets/textures/marble.jpg");
 	Texture metal; //floor
 	metal.TexData("../assets/textures/metal.png");
+	Texture plant;
+	plant.TexData("../assets/textures/grass.png");
+	plant.setClamp();
 
+	Shader skyboxShader("skybox.vert", "skybox.frag");
+	skyboxShader.Use();
+	skyboxShader.SetInt("skybox", 0);
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
 
-	DirectionalLight sunLight;
 	vec3 lightCol(1.0, 1.0, 0.99);
-	sunLight.direction = vec3(1.0, -1.0f, -1.0);
-	sunLight.ambient = vec3(0.9f);
-	sunLight.diffuse = lightCol;
-	sunLight.specular = lightCol;
+	DirectionalLight sunLight(vec3(1.0, -1.0f, -1.0), lightCol, vec3(0.9f));
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -206,17 +177,15 @@ int main()
 			model = mat4(1.0f);
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
-			vegetationVao.Draw();
+			vegetationQuad.Draw();
 		}
 
-		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	//main render loop --------------------------------------------------------------------------END
 
 	//delete everything
-	quad.Delete();
 	plainTextures.Delete();
 	marble.Delete();
 	metal.Delete();

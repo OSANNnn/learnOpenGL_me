@@ -9,6 +9,9 @@ struct DirectionalLight {
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
+
+	DirectionalLight(glm::vec3 dir, glm::vec3 color, glm::vec3 amb = glm::vec3(1.0f))
+		: direction(dir), ambient(amb), diffuse(color), specular(color) {}
 };
 
 struct PointLight {
