@@ -82,7 +82,7 @@ int main()
 	Primitives::SkyBox skyboxCube;
 	Primitives::Cube cube;
 	Primitives::Plane plane;
-	Primitives::Quad vegetationQuad;
+	Primitives::Quad quad;
 
 	CubeMap skyboxTex(faces);
 	Texture marble; //cube
@@ -177,7 +177,7 @@ int main()
 			model = mat4(1.0f);
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
-			vegetationQuad.Draw();
+			quad.Draw();
 		}
 
 		glfwSwapBuffers(window);
