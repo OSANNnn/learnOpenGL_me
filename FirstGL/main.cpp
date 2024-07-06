@@ -196,7 +196,18 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cube.Draw();
 
-		/*plant.Activate(0);
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.Use();
+		view = mat4(mat3(camera.getViewMatrix()));
+		skyboxShader.setMat4f("view", view);
+		skyboxShader.setMat4f("projection", projection);
+		skyboxTex.Activate(0);
+		skyboxCube.Draw();
+		glDepthFunc(GL_LESS);
+
+		plainTextures.Use();
+		plant.Activate(0);
+		view = camera.getViewMatrix();
 		map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
 		{
@@ -210,16 +221,7 @@ int main()
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
-		}*/
-
-		glDepthFunc(GL_LEQUAL);
-		skyboxShader.Use();
-		view = mat4(mat3(camera.getViewMatrix()));
-		skyboxShader.setMat4f("view", view);
-		skyboxShader.setMat4f("projection", projection);
-		skyboxTex.Activate(0);
-		skyboxCube.Draw();
-		glDepthFunc(GL_LESS);
+		}
 
 		
 		glfwSwapBuffers(window);
