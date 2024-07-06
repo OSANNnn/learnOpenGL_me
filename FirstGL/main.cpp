@@ -75,7 +75,6 @@ int main()
 		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 	};
 
-
 	vec2 translations[100];
 
 	int index = 0;
@@ -90,7 +89,20 @@ int main()
 		}
 	}
 
-	FBO colorFrameBuffer(width, height);
+	vector<std::string> faces {
+		"../assets/textures/skybox/right.jpg",
+		"../assets/textures/skybox/left.jpg",
+		"../assets/textures/skybox/top.jpg",
+		"../assets/textures/skybox/bottom.jpg",
+		"../assets/textures/skybox/front.jpg",
+		"../assets/textures/skybox/back.jpg"
+	};
+
+	CubeMap skyboxTex(faces);
+	Primitives::SkyBox skyboxCube;
+	Shader skyboxShader("skybox.vert", "skybox.frag");
+	skyboxShader.Use();
+	skyboxShader.SetInt("skybox", 0);
 
 	VBO quad;
 	VAO vegetationVao;
@@ -127,14 +139,10 @@ int main()
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
 
-	Shader frameBufferShader("frameBuffer.vert", "frameBuffer.frag");
-	frameBufferShader.Use();
-	frameBufferShader.SetInt("bufferTex", 0);
-
 	DirectionalLight sunLight;
-	vec3 lightCol(1.0, 1.0, 0.8);
-	sunLight.direction = vec3(-1.0, -1.0f, 1.0);
-	sunLight.ambient = vec3(0.5f);
+	vec3 lightCol(1.0, 1.0, 0.99);
+	sunLight.direction = vec3(1.0, -1.0f, -1.0);
+	sunLight.ambient = vec3(0.9f);
 	sunLight.diffuse = lightCol;
 	sunLight.specular = lightCol;
 
@@ -160,16 +168,11 @@ int main()
 
 		processInput(window, camera);
 		
-		colorFrameBuffer.Bind();
 		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
 
-		projection = perspective(radians(camera.fov() - 20), aspect, 0.1f, 100.0f);
-		camera.rearMirror(true);
+		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
-		camera.rearMirror(false);
 
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
@@ -193,7 +196,7 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cube.Draw();
 
-		plant.Activate(0);
+		/*plant.Activate(0);
 		map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
 		{
@@ -207,59 +210,18 @@ int main()
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
-		}
-		colorFrameBuffer.UnBind();
+		}*/
 
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.Use();
+		view = mat4(mat3(camera.getViewMatrix()));
+		skyboxShader.setMat4f("view", view);
+		skyboxShader.setMat4f("projection", projection);
+		skyboxTex.Activate(0);
+		skyboxCube.Draw();
+		glDepthFunc(GL_LESS);
 
-		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-
-		view = camera.getViewMatrix();
-		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
-
-		plainTextures.Use();
-		plainTextures.setMat4f("view", view);
-		plainTextures.setMat4f("projection", projection);
-		plainTextures.SetInt("material.texture_diffuse1", 0);
-		plainTextures.setDirectionalLight("directionalLight", sunLight);
-		plainTextures.setVec3("viewPos", camera.position());
-
-		metal.Activate(0);
-		model = mat4(1.0f);
-		plainTextures.setMat4f("model", model);
-		plane.Draw();
-
-		marble.Activate(0);
-		model = mat4(1.0f);
-		model = translate(model, vec3(-1.0f, 0.001f, -1.0f));
-		plainTextures.setMat4f("model", model);
-		cube.Draw();
-		model = mat4(1.0f);
-		model = translate(model, vec3(2.0f, 0.001f, 0.0f));
-		plainTextures.setMat4f("model", model);
-		cube.Draw();
-
-		plant.Activate(0);
-		for (map<float, vec3>::reverse_iterator it = sorted.rbegin(); it !=
-			sorted.rend(); ++it)
-		{
-			model = mat4(1.0f);
-			model = translate(model, it->second);
-			plainTextures.setMat4f("model", model);
-			vegetationVao.Draw();
-		}
-
-
-		frameBufferShader.Use();
-		model = mat4(1.0f);
-		model = translate(model, vec3(0.0f, 0.8, 0.0f));
-		model = scale(model, vec3(0.5, 0.2, 1.0));
-		frameBufferShader.setMat4f("model", model);
-		frameBufferShader.setMat4f("view", view);
-		colorFrameBuffer.Render(frameBufferShader);
-
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -268,7 +230,6 @@ int main()
 	//delete everything
 	quad.Delete();
 	plainTextures.Delete();
-	frameBufferShader.Delete();
 	marble.Delete();
 	metal.Delete();
 

@@ -84,6 +84,82 @@ namespace Primitives
 		}
 	};
 
+	class SkyBox
+	{
+	private:
+		float vertices[3*36] = {
+			-1.0f,  1.0f, -1.0f,
+			-1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+
+			-1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+
+			-1.0f, -1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+
+			-1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f, -1.0f,
+
+			-1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f
+		};
+		const int verticesNr = 36;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
+
+		void init()
+		{
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(vertices, sizeof(vertices));
+			VAO.SetAttrib(0, 3, 3, 0);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
+		}
+	public:
+		SkyBox()
+		{
+			init();
+		};
+		void Draw()
+		{
+			VAO.Draw();
+		}
+		~SkyBox()
+		{
+			VAO.Delete();
+			VBO.Delete();
+		}
+	};
+
 	class Quad
 	{
 	};

@@ -188,6 +188,8 @@
     <None Include="light.frag" />
     <None Include="light.vert" />
     <None Include="singleColor.frag" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
     <None Include="texturePreview.frag" />
     <None Include="texturePreview.vert" />
   </ItemGroup>
