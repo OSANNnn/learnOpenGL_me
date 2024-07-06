@@ -75,20 +75,6 @@ int main()
 		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 	};
 
-	vec2 translations[100];
-
-	int index = 0;
-	float offset = 0.1f;
-	for (int y = -10; y < 10; y += 2)
-	{
-		for (int x = -10; x < 10; x += 2)
-		{
-			translations[index].x = (float)x / 10.0f + offset;
-			translations[index].y = (float)y / 10.0f + offset;
-			index++;
-		}
-	}
-
 	vector<std::string> faces {
 		"../assets/textures/skybox/right.jpg",
 		"../assets/textures/skybox/left.jpg",
@@ -208,7 +194,7 @@ int main()
 		plainTextures.Use();
 		plant.Activate(0);
 		view = camera.getViewMatrix();
-		map<float, glm::vec3> sorted;
+		map<float, vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
 		{
 			float distance = glm::length(camera.position() - vegetation[i]);
