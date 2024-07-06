@@ -60,9 +60,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="screen.hpp">
-      <Filter>Header Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="keyboard.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
@@ -93,8 +90,11 @@
     <ClCompile Include="utils.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
-    <ClCompile Include="primitives.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="FBO.cpp">
+      <Filter>Source Files\graphics\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="screen.hpp">
+      <Filter>Header Files\graphics\buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +102,6 @@
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="materials.hpp">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="keyboard.h">
@@ -119,25 +116,25 @@
     <ClInclude Include="lights.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="model.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="VAO.h">
+    <ClInclude Include="VAO.hpp">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
     <ClInclude Include="buffers.hpp">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="VBO.h">
+    <ClInclude Include="VBO.hpp">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="EBO.h">
+    <ClInclude Include="EBO.hpp">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
+    <ClInclude Include="texture.hpp">
       <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
     <ClInclude Include="io.h">
@@ -146,8 +143,17 @@
     <ClInclude Include="utils.hpp">
       <Filter>Header Files\io</Filter>
     </ClInclude>
-    <ClInclude Include="primitives.h">
+    <ClInclude Include="primitives.hpp">
+      <Filter>Header Files\graphics\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FBO.hpp">
+      <Filter>Header Files\graphics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Header Files\graphics\buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,8 +187,25 @@
     <None Include="texturePreview.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
+    <None Include="frameBuffer.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="frameBuffer.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="skybox.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="skybox.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Chapter_12.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

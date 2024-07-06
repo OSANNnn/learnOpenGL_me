@@ -1,4 +1,4 @@
-#include "EBO.h"
+#include "EBO.hpp"
 
 
 Buffers::EBO::EBO()

@@ -1,5 +1,4 @@
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -38,5 +37,3 @@ public:
 	void setPointLight(const std::string& name, const PointLight& light) const;
 	void setSpotLight(const std::string& name, const SpotLight& light) const;
 };
-
-#endif

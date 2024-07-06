@@ -1,4 +1,4 @@
-#include "VAO.h"
+#include "VAO.hpp"
 
 void Buffers::VAO::checkBinding()
 {

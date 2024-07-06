@@ -65,6 +65,18 @@ public:
 		updateCameraVectors();
 	}
 
+	void rearMirror(bool activate)
+	{
+		if (!activate)
+		{
+			m_Pitch -= 180;
+			processMouseMovement(0, -180, true);
+			return;
+		}
+		m_Pitch += 180;
+		processMouseMovement(0, 180, false);
+	}
+
 	void processKeyboard(CAMERA_MOVMENT direction, float deltaTime)
 	{
 		float velocity = m_MovementSpeed * deltaTime;

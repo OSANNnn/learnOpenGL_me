@@ -7,7 +7,7 @@ namespace Primitives
 	class Cube
 	{
 	private:
-		float cubeVertices[36*8] = {
+		float vertices[36*8] = {
 		//backface pos             normals			     TexCoords
 			-0.5f, -0.5f, -0.5f,   0.0f,  0.0f,  1.0f,   0.0f, 0.0f, // bottom-left
 			 0.5f,  0.5f, -0.5f,   0.0f,  0.0f,  1.0f,   1.0f, 1.0f, // top-right
@@ -59,7 +59,7 @@ namespace Primitives
 		{
 			VAO.Bind();
 			VBO.Bind();
-			VBO.Data(cubeVertices, sizeof(cubeVertices));
+			VBO.Data(vertices, sizeof(vertices));
 			VAO.SetAttrib(0, 3, 8, 0);
 			VAO.SetAttrib(1, 3, 8, 3);
 			VAO.SetAttrib(2, 2, 8, 6);
@@ -84,6 +84,82 @@ namespace Primitives
 		}
 	};
 
+	class SkyBox
+	{
+	private:
+		float vertices[3*36] = {
+			-1.0f,  1.0f, -1.0f,
+			-1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+
+			-1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+
+			-1.0f, -1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+
+			-1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f, -1.0f,
+
+			-1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f
+		};
+		const int verticesNr = 36;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
+
+		void init()
+		{
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(vertices, sizeof(vertices));
+			VAO.SetAttrib(0, 3, 3, 0);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
+		}
+	public:
+		SkyBox()
+		{
+			init();
+		};
+		void Draw()
+		{
+			VAO.Draw();
+		}
+		~SkyBox()
+		{
+			VAO.Delete();
+			VBO.Delete();
+		}
+	};
+
 	class Quad
 	{
 	};
@@ -91,6 +167,52 @@ namespace Primitives
 	class Triangle
 	{
 
+	};
+
+	class FrameQuad
+	{
+	private:
+		float vertices[5 * 6] =
+		{
+			-1.0,  1.0,  0.0,  0.0, 1.0,
+			-1.0, -1.0,  0.0,  0.0, 0.0,
+			 1.0, -1.0,  0.0,  1.0, 0.0,
+							   
+			 1.0, -1.0,  0.0,  1.0, 0.0,
+			 1.0,  1.0,  0.0,  1.0, 1.0,
+			-1.0,  1.0,  0.0,  0.0, 1.0,
+		};
+
+		const int verticesNr = 6;
+		Buffers::VBO VBO;
+		Buffers::VAO VAO;
+
+		void init()
+		{
+			VAO.Bind();
+			VBO.Bind();
+			VBO.Data(vertices, sizeof(vertices));
+			VAO.SetAttrib(0, 3, 5, 0);
+			VAO.SetAttrib(1, 2, 5, 3);
+			VAO.setVertexCount(verticesNr);
+			VAO.UnBind();
+			VBO.UnBind();
+		}
+
+	public:
+		FrameQuad()
+		{
+			init();
+		};
+		void Draw()
+		{
+			VAO.Draw();
+		}
+		~FrameQuad()
+		{
+			VAO.Delete();
+			VBO.Delete();
+		}
 	};
 
 	class Plane

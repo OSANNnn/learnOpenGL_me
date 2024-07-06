@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <glad/glad.h>
 #include <glfw3.h>
 
@@ -33,6 +34,21 @@ namespace Buffers
 		GLuint getID();
 		void Activate(int index);
 		void TexData(const char* path, const std::string& directory = "", bool linear = true);
+	};
+
+	class CubeMap
+	{
+	private:
+		unsigned int ID;
+		bool IsBound = false;
+		std::string Path;
+	public:
+		CubeMap(std::vector<std::string> paths);
+		void Bind();
+		void UnBind();
+		void Delete();
+		GLuint getID();
+		void Activate(int index);
 	};
 }
 

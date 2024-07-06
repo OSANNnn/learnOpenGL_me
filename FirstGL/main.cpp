@@ -7,12 +7,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "io.h"
-#include "Shader.hpp"
 #include "buffers.hpp"
+#include "FBO.hpp"
+#include "Shader.hpp"
+#include "primitives.hpp"
 #include "materials.hpp"
 #include "lights.hpp"
-#include "model.h"
-#include "primitives.h"
+#include "model.hpp"
 
 
 using namespace std;
@@ -20,8 +21,8 @@ using namespace Buffers;
 using namespace glm;
 
 //canvas size
-const unsigned int width = 800;
-const unsigned int height = 600;
+unsigned int width = 800;
+unsigned int height = 600;
 
 Fly_Camera camera(vec3(0.0f, 0.0f, 3.0f));
 
@@ -74,7 +75,6 @@ int main()
 		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
 	};
 
-
 	vec2 translations[100];
 
 	int index = 0;
@@ -88,6 +88,21 @@ int main()
 			index++;
 		}
 	}
+
+	vector<std::string> faces {
+		"../assets/textures/skybox/right.jpg",
+		"../assets/textures/skybox/left.jpg",
+		"../assets/textures/skybox/top.jpg",
+		"../assets/textures/skybox/bottom.jpg",
+		"../assets/textures/skybox/front.jpg",
+		"../assets/textures/skybox/back.jpg"
+	};
+
+	CubeMap skyboxTex(faces);
+	Primitives::SkyBox skyboxCube;
+	Shader skyboxShader("skybox.vert", "skybox.frag");
+	skyboxShader.Use();
+	skyboxShader.SetInt("skybox", 0);
 
 	VBO quad;
 	VAO vegetationVao;
@@ -125,10 +140,11 @@ int main()
 	plainTextures.SetInt("texture1", 0);
 
 	DirectionalLight sunLight;
-	sunLight.direction = vec3(-1.0, -1.0f, 1.0);
-	sunLight.ambient = vec3(0.1f);
-	sunLight.diffuse = vec3(0.8, 1.0, 1.0);
-	sunLight.specular = vec3(0.8, 1.0, 1.0);
+	vec3 lightCol(1.0, 1.0, 0.99);
+	sunLight.direction = vec3(1.0, -1.0f, -1.0);
+	sunLight.ambient = vec3(0.9f);
+	sunLight.diffuse = lightCol;
+	sunLight.specular = lightCol;
 
 	mat4 view = camera.getViewMatrix();
 	mat4 projection(1.0f);
@@ -150,10 +166,11 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		processInput(window, camera);
 		
+		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
 
@@ -179,7 +196,7 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cube.Draw();
 
-		plant.Activate(0);
+		/*plant.Activate(0);
 		map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetation.size(); i++)
 		{
@@ -193,8 +210,18 @@ int main()
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
 			vegetationVao.Draw();
-		}
+		}*/
 
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.Use();
+		view = mat4(mat3(camera.getViewMatrix()));
+		skyboxShader.setMat4f("view", view);
+		skyboxShader.setMat4f("projection", projection);
+		skyboxTex.Activate(0);
+		skyboxCube.Draw();
+		glDepthFunc(GL_LESS);
+
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

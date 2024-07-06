@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EBO.cpp" />
+    <ClCompile Include="FBO.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -157,24 +158,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
-    <ClInclude Include="EBO.h" />
+    <ClInclude Include="EBO.hpp" />
+    <ClInclude Include="FBO.hpp" />
     <ClInclude Include="filesystem.hpp" />
     <ClInclude Include="io.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lights.hpp" />
     <ClInclude Include="materials.hpp" />
     <ClInclude Include="Mesh.hpp" />
-    <ClInclude Include="model.h" />
+    <ClInclude Include="model.hpp" />
     <ClInclude Include="mouse.h" />
-    <ClInclude Include="primitives.h" />
+    <ClInclude Include="primitives.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.hpp" />
-    <ClInclude Include="texture.h" />
+    <ClInclude Include="texture.hpp" />
     <ClInclude Include="utils.hpp" />
     <ClInclude Include="buffers.hpp" />
-    <ClInclude Include="VAO.h" />
-    <ClInclude Include="VBO.h" />
+    <ClInclude Include="VAO.hpp" />
+    <ClInclude Include="VBO.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="frameBuffer.frag" />
+    <None Include="frameBuffer.vert" />
     <None Include="normals.frag" />
     <None Include="phongModel.frag" />
     <None Include="phongModel.vert" />
@@ -183,11 +188,16 @@
     <None Include="light.frag" />
     <None Include="light.vert" />
     <None Include="singleColor.frag" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
     <None Include="texturePreview.frag" />
     <None Include="texturePreview.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Chapter_12.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
