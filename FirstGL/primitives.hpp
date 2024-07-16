@@ -299,9 +299,9 @@ namespace Primitives
 		}
 		~Plane()
 		{
+			std::cout << "Plane deleted!" << std::endl;
 			VAO.Delete();
 			VBO.Delete();
-			std::cout << "Plane deleted!" << std::endl;
 		}
 	};
 }

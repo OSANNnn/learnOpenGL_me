@@ -15,8 +15,8 @@ Buffers::Texture::Texture(std::string type)
 
 Buffers::Texture::~Texture()
 {
-	Delete();
 	std::cout << "Texture Deleted! " << ID << std::endl;
+	Delete();
 }
 
 void Buffers::Texture::Bind()
@@ -196,8 +196,8 @@ Buffers::CubeMap::CubeMap(std::vector<std::string> paths)
 
 Buffers::CubeMap::~CubeMap()
 {
-	Delete();
 	std::cout << "CubeMap deleted! ID:" << ID << std::endl;
+	Delete();
 }
 
 void Buffers::CubeMap::Bind()

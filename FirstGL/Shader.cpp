@@ -95,8 +95,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 Shader::~Shader()
 {
-	Delete();
 	std::cout << "Shader deleted! ID: " << ID << std::endl;
+	Delete();
 }
 
 void Shader::Use()
