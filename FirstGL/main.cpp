@@ -83,6 +83,10 @@ int main()
 	Primitives::Cube cube;
 	Primitives::Plane plane;
 	Primitives::Quad vegetationQuad;
+	Primitives::FrameQuad frame;
+	//Model backPack("../assets/backpack/backpack.obj");
+	FBO framebuffer(800, 600);
+
 
 	CubeMap skyboxTex(faces);
 	Texture marble; //cube
@@ -99,6 +103,13 @@ int main()
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
+	Shader testShader("refraction.vert", "refraction.frag");
+	testShader.Use();
+	testShader.SetInt("skybox", 0);
+	Shader frameBufferShader("frameBuffer.vert", "blur.frag");
+	frameBufferShader.Use();
+	frameBufferShader.SetInt("bufferTex", 0);
+	frameBufferShader.SetFloat("blurStrenght", 16.0f);
 
 	vec3 lightCol(1.0, 1.0, 0.99);
 	DirectionalLight sunLight(vec3(1.0, -1.0f, -1.0), lightCol, vec3(0.9f));
@@ -125,11 +136,26 @@ int main()
 
 		processInput(window, camera);
 		
+
+		framebuffer.Bind();
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
 		glClearColor(0.8f, 0.8f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		projection = perspective(radians(camera.fov()), aspect, 0.1f, 100.0f);
 		view = camera.getViewMatrix();
+
+		testShader.Use();
+		testShader.setMat4f("view", view);
+		testShader.setMat4f("projection", projection);
+		testShader.setVec3("viewPos", camera.position());
+		skyboxTex.Activate(0);
+		model = mat4(1.0);
+		model = translate(model, vec3(0.0f, 1.0f, 0.0f));
+		//model = rotate(model, radians((float)glfwGetTime() * 5.0f), vec3(0.0f, 1.0f, 0.0f));
+		model = scale(model, vec3(0.2f));
+		testShader.setMat4f("model", model);
+		cube.Draw();
 
 		plainTextures.Use();
 		plainTextures.setMat4f("view", view);
@@ -179,6 +205,9 @@ int main()
 			plainTextures.setMat4f("model", model);
 			vegetationQuad.Draw();
 		}
+		framebuffer.UnBind();
+
+		framebuffer.Render(frameBufferShader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -187,8 +216,10 @@ int main()
 
 	//delete everything
 	plainTextures.Delete();
+	testShader.Delete();
 	marble.Delete();
 	metal.Delete();
+	framebuffer.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();

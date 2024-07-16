@@ -46,6 +46,9 @@
     <Filter Include="Header Files\graphics\Primitives">
       <UniqueIdentifier>{a1877c2c-c73c-4d88-b95f-a38cf9da8d68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders\Fragment\postprocessing">
+      <UniqueIdentifier>{4a7e56ad-6783-48d1-8b7b-ed7c010bd6ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,6 +201,27 @@
     </None>
     <None Include="skybox.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="fullReflection.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="fullReflection.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="refraction.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="refraction.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="test.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="test.frag">
+      <Filter>Resource Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="blur.frag">
+      <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

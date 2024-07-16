@@ -15,7 +15,7 @@ const glm::vec3 CAMERA_DEFAULT_FRONT(0.0f, 0.0f, -1.0f);
 const glm::vec3 CAMERA_DEFAULT_POS(0.0f);
 
 
-enum CAMERA_MOVMENT
+enum CAMERA_MOVEMENT
 {
 	FORWARD,
 	BACKWARD,
@@ -77,7 +77,7 @@ public:
 		processMouseMovement(0, 180, false);
 	}
 
-	void processKeyboard(CAMERA_MOVMENT direction, float deltaTime)
+	void processKeyboard(CAMERA_MOVEMENT direction, float deltaTime)
 	{
 		float velocity = m_MovementSpeed * deltaTime;
 
