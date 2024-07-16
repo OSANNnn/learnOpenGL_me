@@ -203,7 +203,7 @@ int main()
 			model = mat4(1.0f);
 			model = translate(model, it->second);
 			plainTextures.setMat4f("model", model);
-			vegetationQuad.Draw();
+			quad.Draw();
 		}
 		framebuffer.UnBind();
 
