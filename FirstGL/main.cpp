@@ -86,6 +86,7 @@ int main()
 	Primitives::FrameQuad frame;
 	//Model backPack("../assets/backpack/backpack.obj");
 	FBO framebuffer(800, 600);
+	FBO chainBuffer(800, 600);
 
 
 	CubeMap skyboxTex(faces);
@@ -106,10 +107,12 @@ int main()
 	Shader testShader("refraction.vert", "refraction.frag");
 	testShader.Use();
 	testShader.SetInt("skybox", 0);
-	Shader frameBufferShader("frameBuffer.vert", "blur.frag");
+	Shader frameBufferShader("frameBuffer.vert", "sharpen.frag");
 	frameBufferShader.Use();
 	frameBufferShader.SetInt("bufferTex", 0);
 	frameBufferShader.SetFloat("blurStrenght", 16.0f);
+	Shader blackandwhite("frameBuffer.vert", "blackAndWhite.frag");
+	blackandwhite.SetInt("tex", 0);
 
 	vec3 lightCol(1.0, 1.0, 0.99);
 	DirectionalLight sunLight(vec3(1.0, -1.0f, -1.0), lightCol, vec3(0.9f));
@@ -207,7 +210,11 @@ int main()
 		}
 		framebuffer.UnBind();
 
-		framebuffer.Render(frameBufferShader);
+		chainBuffer.Bind();
+		framebuffer.Render(blackandwhite);
+		chainBuffer.UnBind();
+
+		chainBuffer.Render(frameBufferShader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -217,6 +224,7 @@ int main()
 	//delete everything
 	plainTextures.Delete();
 	testShader.Delete();
+	frameBufferShader.Delete();
 	marble.Delete();
 	metal.Delete();
 	framebuffer.Delete();

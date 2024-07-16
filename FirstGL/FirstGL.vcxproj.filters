@@ -223,6 +223,12 @@
     <None Include="blur.frag">
       <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
     </None>
+    <None Include="sharpen.frag">
+      <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
+    </None>
+    <None Include="blackAndWhite.frag">
+      <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />

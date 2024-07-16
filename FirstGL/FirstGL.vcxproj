@@ -178,6 +178,7 @@
     <ClInclude Include="VBO.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="blackAndWhite.frag" />
     <None Include="blur.frag" />
     <None Include="frameBuffer.frag" />
     <None Include="frameBuffer.vert" />
@@ -192,6 +193,7 @@
     <None Include="light.vert" />
     <None Include="refraction.frag" />
     <None Include="refraction.vert" />
+    <None Include="sharpen.frag" />
     <None Include="singleColor.frag" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
