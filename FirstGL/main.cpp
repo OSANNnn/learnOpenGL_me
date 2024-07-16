@@ -83,7 +83,6 @@ int main()
 	Primitives::Cube cube;
 	Primitives::Plane plane;
 	Primitives::Quad vegetationQuad;
-	Primitives::FrameQuad frame;
 	//Model backPack("../assets/backpack/backpack.obj");
 	FBO framebuffer(800, 600);
 	FBO chainBuffer(800, 600);
@@ -101,18 +100,34 @@ int main()
 	Shader skyboxShader("skybox.vert", "skybox.frag");
 	skyboxShader.Use();
 	skyboxShader.SetInt("skybox", 0);
+	
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
+	
 	Shader testShader("refraction.vert", "refraction.frag");
 	testShader.Use();
 	testShader.SetInt("skybox", 0);
-	Shader frameBufferShader("frameBuffer.vert", "sharpen.frag");
+	
+	Shader frameBufferShader("frameBuffer.vert", "frameBuffer.frag");
 	frameBufferShader.Use();
 	frameBufferShader.SetInt("bufferTex", 0);
-	frameBufferShader.SetFloat("blurStrenght", 16.0f);
+	
 	Shader blackandwhite("frameBuffer.vert", "blackAndWhite.frag");
 	blackandwhite.SetInt("tex", 0);
+
+	Shader blurShader("frameBuffer.vert", "blur.frag");
+	blurShader.Use();
+	blurShader.SetInt("bufferTex", 0);
+	blurShader.SetFloat("blurStrenght", 16.0f);
+
+	Shader edgeDetection("frameBuffer.vert", "edgeDetection.frag");
+	edgeDetection.Use();
+	edgeDetection.SetInt("bufferTex", 0);
+
+	Shader sharpen("framebuffer.vert", "sharpen.frag");
+	sharpen.Use();
+	sharpen.SetInt("bufferTex", 0);
 
 	vec3 lightCol(1.0, 1.0, 0.99);
 	DirectionalLight sunLight(vec3(1.0, -1.0f, -1.0), lightCol, vec3(0.9f));
@@ -211,23 +226,23 @@ int main()
 		framebuffer.UnBind();
 
 		chainBuffer.Bind();
-		framebuffer.Render(blackandwhite);
+		framebuffer.Render(blurShader);
 		chainBuffer.UnBind();
 
-		chainBuffer.Render(frameBufferShader);
+		framebuffer.Bind();
+		chainBuffer.Render(blackandwhite);
+		framebuffer.UnBind();
+
+		chainBuffer.Bind();
+		framebuffer.Render(edgeDetection);
+		chainBuffer.UnBind();
+
+		chainBuffer.Render(sharpen);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	//main render loop --------------------------------------------------------------------------END
-
-	//delete everything
-	plainTextures.Delete();
-	testShader.Delete();
-	frameBufferShader.Delete();
-	marble.Delete();
-	metal.Delete();
-	framebuffer.Delete();
 
 	//clean memory and close the program
 	glfwTerminate();

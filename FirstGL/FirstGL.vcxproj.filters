@@ -229,6 +229,9 @@
     <None Include="blackAndWhite.frag">
       <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
     </None>
+    <None Include="edgeDetection.frag">
+      <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />

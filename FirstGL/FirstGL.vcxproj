@@ -180,6 +180,7 @@
   <ItemGroup>
     <None Include="blackAndWhite.frag" />
     <None Include="blur.frag" />
+    <None Include="edgeDetection.frag" />
     <None Include="frameBuffer.frag" />
     <None Include="frameBuffer.vert" />
     <None Include="fullReflection.frag" />

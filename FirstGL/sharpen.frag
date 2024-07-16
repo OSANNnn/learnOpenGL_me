@@ -6,9 +6,9 @@ in vec2 TexCoords;
 uniform sampler2D bufferTex;
 
 float kernel[9] = float[](
-	 1.0,  1.0,  1.0,
-	 1.0, -8.0,  1.0,
-	 1.0,  1.0,  1.0
+	 -1, -1, -1,
+     -1,  9, -1,
+     -1, -1, -1
 );
 
 const float offset = 1.0 / 300.0;

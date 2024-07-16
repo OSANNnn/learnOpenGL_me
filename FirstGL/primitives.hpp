@@ -81,6 +81,7 @@ namespace Primitives
 		{
 			VAO.Delete();
 			VBO.Delete();
+			std::cout << "Cube deleted!" << std::endl;
 		}
 	};
 
@@ -157,6 +158,7 @@ namespace Primitives
 		{
 			VAO.Delete();
 			VBO.Delete();
+			std::cout << "Skybox Deleted!" << std::endl;
 		}
 	};
 
@@ -200,6 +202,7 @@ namespace Primitives
 		{
 			VAO.Delete();
 			VBO.Delete();
+			std::cout << "Quad deleted!" << std::endl;
 		}
 	};
 
@@ -251,6 +254,7 @@ namespace Primitives
 		{
 			VAO.Delete();
 			VBO.Delete();
+			std::cout << "FrameQuad deleted!" << std::endl;
 		}
 	};
 
@@ -297,6 +301,7 @@ namespace Primitives
 		{
 			VAO.Delete();
 			VBO.Delete();
+			std::cout << "Plane deleted!" << std::endl;
 		}
 	};
 }

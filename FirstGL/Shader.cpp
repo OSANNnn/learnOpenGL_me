@@ -86,11 +86,17 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	}
 	else
 	{
-		std::cout << "Shaders loaded! \"" << vertexPath << "\" \"" << fragmentPath << "\"" << std::endl;
+		std::cout << "Shaders loaded! ID: " << ID << " \"" << vertexPath << "\" \"" << fragmentPath << "\"" << std::endl;
 	}
 	// delete shaders; they’re linked into our program and no longer necessary
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
+}
+
+Shader::~Shader()
+{
+	Delete();
+	std::cout << "Shader deleted! ID: " << ID << std::endl;
 }
 
 void Shader::Use()

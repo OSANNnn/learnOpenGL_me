@@ -76,3 +76,9 @@ void FBO::Render(Shader& shaderProgram)
     frame.Draw();
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+FBO::~FBO()
+{
+    this->Delete();
+    std::cout << "FrameBuffer Deleted! " << ID << std::endl;
+}

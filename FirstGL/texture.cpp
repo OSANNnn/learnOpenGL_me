@@ -13,6 +13,12 @@ Buffers::Texture::Texture(std::string type)
 	Type = type;
 }
 
+Buffers::Texture::~Texture()
+{
+	Delete();
+	std::cout << "Texture Deleted! " << ID << std::endl;
+}
+
 void Buffers::Texture::Bind()
 {
 	glBindTexture(GL_TEXTURE_2D, ID);
@@ -92,8 +98,9 @@ void Buffers::Texture::TexData(const char* path, const std::string& directory, b
 		filename = directory + '/' + filename;
 
 	int width, height, nrChannels;
-	std::cout << "Loading texture data: \"" << filename << '"';
+	std::cout << "Loading texture data: \"" << filename << "\"" << std::endl << ".";
 	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+	std::cout << ".";
 
 
 	if (data)
@@ -136,11 +143,12 @@ void Buffers::Texture::TexData(const char* path, const std::string& directory, b
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filteringMag);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		std::cout << ".";
 		glGenerateMipmap(GL_TEXTURE_2D);
 		Width = width;
 		Height = height;
 		Channels = nrChannels;
-	std::cout << "... LOADED!" << std::endl;
+		std::cout << "LOADED! ID: "<< ID << std::endl;
 	}
 	else
 	{
@@ -173,6 +181,8 @@ Buffers::CubeMap::CubeMap(std::vector<std::string> paths)
 		{
 			std::cout << "FAILED TO LOAD CUBEMAP TEXTURE: " << path << std::endl;
 			stbi_image_free(data);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+			return;
 		}
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -180,7 +190,14 @@ Buffers::CubeMap::CubeMap(std::vector<std::string> paths)
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	}
+	std::cout << "CubeMap loaded! ID: " << ID << std::endl;
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+}
+
+Buffers::CubeMap::~CubeMap()
+{
+	Delete();
+	std::cout << "CubeMap deleted! ID:" << ID << std::endl;
 }
 
 void Buffers::CubeMap::Bind()

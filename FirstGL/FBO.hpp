@@ -23,4 +23,5 @@ public:
 	void UnBind();
 	void Delete();
 	void Render(Shader& shaderProgram);
+	~FBO();
 };

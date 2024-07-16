@@ -22,6 +22,7 @@ namespace Buffers
 	public:
 		Texture();
 		Texture(std::string type);
+		~Texture();
 		void Bind();
 		void UnBind();
 		void Delete();
@@ -44,6 +45,7 @@ namespace Buffers
 		std::string Path;
 	public:
 		CubeMap(std::vector<std::string> paths);
+		~CubeMap();
 		void Bind();
 		void UnBind();
 		void Delete();
