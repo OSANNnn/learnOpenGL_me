@@ -170,6 +170,7 @@ int main()
 		skyboxTex.Activate(0);
 		model = mat4(1.0);
 		model = translate(model, vec3(0.0f, 1.0f, 0.0f));
+		model = scale(model, vec3(3.0f));
 		//model = rotate(model, radians((float)glfwGetTime() * 5.0f), vec3(0.0f, 1.0f, 0.0f));
 		model = scale(model, vec3(0.2f));
 		testShader.setMat4f("model", model);
@@ -225,19 +226,21 @@ int main()
 		}
 		framebuffer.UnBind();
 
-		chainBuffer.Bind();
-		framebuffer.Render(blurShader);
-		chainBuffer.UnBind();
+		framebuffer.Render(frameBufferShader);
 
-		framebuffer.Bind();
-		chainBuffer.Render(blackandwhite);
-		framebuffer.UnBind();
+		//chainBuffer.Bind();
+		//framebuffer.Render(blurShader);
+		//chainBuffer.UnBind();
 
-		chainBuffer.Bind();
-		framebuffer.Render(edgeDetection);
-		chainBuffer.UnBind();
+		//framebuffer.Bind();
+		//chainBuffer.Render(blackandwhite);
+		//framebuffer.UnBind();
 
-		chainBuffer.Render(sharpen);
+		//chainBuffer.Bind();
+		//framebuffer.Render(edgeDetection);
+		//chainBuffer.UnBind();
+
+		//chainBuffer.Render(sharpen);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
