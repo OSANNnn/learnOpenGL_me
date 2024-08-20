@@ -187,7 +187,10 @@
     <None Include="frameBuffer.vert" />
     <None Include="fullReflection.frag" />
     <None Include="fullReflection.vert" />
+    <None Include="normalsDebug.frag" />
+    <None Include="normalsDebug.geom" />
     <None Include="normals.frag" />
+    <None Include="normalsDebug.vert" />
     <None Include="phongModel.frag" />
     <None Include="phongModel.vert" />
     <None Include="default.frag" />

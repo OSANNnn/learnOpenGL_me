@@ -98,6 +98,8 @@ int main()
 	plant.TexData("../assets/textures/grass.png");
 	plant.setClamp();
 
+	Shader normalsDebug("normalsDebug.vert", "normalsDebug.frag", "normalsDebug.geom");
+
 	Shader skyboxShader("skybox.vert", "skybox.frag");
 	skyboxShader.Use();
 	skyboxShader.SetInt("skybox", 0);
@@ -220,6 +222,12 @@ int main()
 		model = scale(model, vec3(0.2f));
 		explodeModel.setMat4f("model", model);
 		backpack.Draw(explodeModel);
+		normalsDebug.Use();
+		normalsDebug.setMat4f("view", view);
+		normalsDebug.setMat4f("projection", projection);
+		normalsDebug.setMat4f("model", model);
+		backpack.Draw(normalsDebug);
+		
 
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.Use();

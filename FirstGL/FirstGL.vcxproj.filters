@@ -46,11 +46,11 @@
     <Filter Include="Header Files\graphics\Primitives">
       <UniqueIdentifier>{a1877c2c-c73c-4d88-b95f-a38cf9da8d68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Shaders\Fragment\postprocessing">
-      <UniqueIdentifier>{4a7e56ad-6783-48d1-8b7b-ed7c010bd6ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Shaders\Geometry">
       <UniqueIdentifier>{2a1e2c74-3f60-429a-b29f-019df6229ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\Fragment\postprocessing">
+      <UniqueIdentifier>{4a7e56ad-6783-48d1-8b7b-ed7c010bd6ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +241,13 @@
     <None Include="explode.vert">
       <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
+    <None Include="normalsDebug.geom">
+      <Filter>Resource Files\Shaders\Geometry</Filter>
+    </None>
+    <None Include="normalsDebug.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="normalsDebug.frag" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fuck.txt" />
