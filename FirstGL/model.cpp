@@ -10,7 +10,12 @@ void Model::Draw(Shader& shader)
 
 void Model::Delete()
 {
-	for (Mesh mesh : Meshes)
+	for (auto& texture : textures_loaded)
+	{
+		texture.Delete();
+	}
+
+	for (Mesh& mesh : Meshes)
 	{
 		mesh.Delete();
 	}

@@ -49,6 +49,9 @@
     <Filter Include="Resource Files\Shaders\Fragment\postprocessing">
       <UniqueIdentifier>{4a7e56ad-6783-48d1-8b7b-ed7c010bd6ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders\Geometry">
+      <UniqueIdentifier>{2a1e2c74-3f60-429a-b29f-019df6229ed4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -231,6 +234,12 @@
     </None>
     <None Include="edgeDetection.frag">
       <Filter>Resource Files\Shaders\Fragment\postprocessing</Filter>
+    </None>
+    <None Include="explode.geom">
+      <Filter>Resource Files\Shaders\Geometry</Filter>
+    </None>
+    <None Include="explode.vert">
+      <Filter>Resource Files\Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@ namespace Buffers
 	public:
 		Texture();
 		Texture(std::string type);
-		~Texture();
+		//~Texture();
 		void Bind();
 		void UnBind();
 		void Delete();

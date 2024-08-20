@@ -181,6 +181,8 @@
     <None Include="blackAndWhite.frag" />
     <None Include="blur.frag" />
     <None Include="edgeDetection.frag" />
+    <None Include="explode.geom" />
+    <None Include="explode.vert" />
     <None Include="frameBuffer.frag" />
     <None Include="frameBuffer.vert" />
     <None Include="fullReflection.frag" />

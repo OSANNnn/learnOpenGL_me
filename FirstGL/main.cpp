@@ -83,10 +83,11 @@ int main()
 	Primitives::Cube cube;
 	Primitives::Plane plane;
 	Primitives::Quad vegetationQuad;
-	//Model backPack("../assets/backpack/backpack.obj");
 	FBO framebuffer(800, 600);
 	FBO chainBuffer(800, 600);
-
+	stbi_set_flip_vertically_on_load(true);
+	Model backpack("../assets/backpack/backpack.obj");
+	stbi_set_flip_vertically_on_load(false);
 
 	CubeMap skyboxTex(faces);
 	Texture marble; //cube
@@ -104,8 +105,12 @@ int main()
 	Shader plainTextures("texturePreview.vert", "texturePreview.frag");
 	plainTextures.Use();
 	plainTextures.SetInt("texture1", 0);
+
+	Shader explodeModel("explode.vert", "texturePreview.frag", "explode.geom");
+	explodeModel.Use();
+	plainTextures.SetInt("texture1", 0);
 	
-	Shader testShader("refraction.vert", "refraction.frag");
+	Shader testShader("fullReflection.vert", "fullReflection.frag");
 	testShader.Use();
 	testShader.SetInt("skybox", 0);
 	
@@ -144,10 +149,16 @@ int main()
 	glDepthFunc(GL_LESS);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	bool rendererStart = false;
 	//main render loop -----------------------------------------------------------------------------
 	while (!glfwWindowShouldClose(window))
 	{
+		if (!rendererStart)
+		{
+			std::cout << "RENDERER::RUNNING" << std::endl;
+			rendererStart = true;
+		}
+
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
@@ -198,6 +209,18 @@ int main()
 		plainTextures.setMat4f("model", model);
 		cube.Draw();
 
+		explodeModel.Use();
+		explodeModel.setMat4f("view", view);
+		explodeModel.setMat4f("projection", projection);
+		explodeModel.setDirectionalLight("directionalLight", sunLight);
+		explodeModel.setVec3("viewPos", camera.position());
+		explodeModel.SetFloat("time", (float)glfwGetTime());
+		model = mat4(1.0f);
+		model = translate(model, vec3(0.0, 2.0, 0.0));
+		model = scale(model, vec3(0.2f));
+		explodeModel.setMat4f("model", model);
+		backpack.Draw(explodeModel);
+
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.Use();
 		view = mat4(mat3(camera.getViewMatrix()));
@@ -246,8 +269,9 @@ int main()
 		glfwPollEvents();
 	}
 	//main render loop --------------------------------------------------------------------------END
-
+	std::cout << "RENDERER::ENDED" << std::endl;
 	//clean memory and close the program
+	backpack.Delete();
 	glfwTerminate();
 	return 0;
 }

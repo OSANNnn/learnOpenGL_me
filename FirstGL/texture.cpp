@@ -5,19 +5,21 @@
 Buffers::Texture::Texture()
 {
 	glGenTextures(1, &ID);
+	std::cout << "Texture gen! (no args)" << ID << std::endl;
 }
 
 Buffers::Texture::Texture(std::string type)
 {
 	glGenTextures(1, &ID);
+	std::cout << "Texture gen! (w/args)" << ID << std::endl;
 	Type = type;
 }
 
-Buffers::Texture::~Texture()
-{
-	std::cout << "Texture Deleted! " << ID << std::endl;
-	Delete();
-}
+//Buffers::Texture::~Texture()
+//{
+//	std::cout << "Texture Deleted! " << ID << std::endl;
+//	Delete();
+//}
 
 void Buffers::Texture::Bind()
 {
@@ -33,6 +35,7 @@ void Buffers::Texture::UnBind()
 
 void Buffers::Texture::Delete()
 {
+	std::cout << "Texture deleted: " << ID << std::endl;
 	glDeleteTextures(1, &ID);
 	IsBound = false;
 }
